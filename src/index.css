@@ -1,0 +1,53 @@
+@import "@aws-amplify/ui-react/styles.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Scrollbar */
+
+:root {
+  --scrollbar-thumb-color: rgb(29, 78, 216);
+  --scrollbar-track-color: transparent;
+  --scrollbar-border-color: #e5e7eb;
+  --scrollbar-border-color-dark: rgb(15, 23, 42);
+}
+
+*::-webkit-scrollbar {
+  @apply w-5;
+}
+
+*::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply bg-slate-500 rounded-full border-solid border-8;
+}
+
+@media (prefers-color-scheme: dark) {
+  *::-webkit-scrollbar-thumb {
+    @apply border-slate-900;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  *::-webkit-scrollbar-thumb {
+    @apply border-slate-200;
+  }
+}
+
+/* Amplify Theming */
+
+[data-amplify-authenticator] {
+  height: 100vh;
+}
+
+[data-amplify-router] {
+  @apply rounded-xl;
+}
+
+[data-amplify-form] {
+  .amplify-button--primary {
+    @apply rounded-full bg-pink-600 px-4 py-2 text-sm font-medium text-pink-50 hover:bg-pink-800 focus:outline-none focus:ring-4 focus:ring-pink-300 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800 sm:text-base disabled:bg-slate-500;
+  }
+}

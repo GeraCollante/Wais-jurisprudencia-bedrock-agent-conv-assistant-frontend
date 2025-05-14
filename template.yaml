@@ -1,0 +1,152 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Web app - frontend hosting
+Parameters:
+  GitRepoUrl:
+    Type: String
+    Description: Git repository clone URL for the frontend
+  GitRepoBranch:
+    Type: String
+    Default: main
+  WebAppApiUrl:
+    Type: String
+    Description: Web app Api Url
+  WebAppUserPoolId:
+    Type: String
+    Description: Web app User Pool Id
+  WebAppUserPoolWebClientId:
+    Type: String
+    Description: Web app User Pool Web Client Id
+  WebAppIdentityPoolId:
+    Type: String
+    Description: Web app Identity Pool Id
+  DeploymentRegion:
+    Type: String
+    Description: Deployment region
+    Default: 'us-east-1'
+  AppName:
+    Type: String
+    Description: App name
+    Default: 'GenAI Assistant'
+  LogoUrl:
+    Type: String
+    Description: Logo URL
+    Default: ''
+  PrototypeName:
+    Type: String
+    Description: Prototype name
+    Default: 'WAIS'
+  LanguageCode:
+    Type: String
+    Description: "ISO 639 / 3166-1 alpha-2 language code. Supported: en, es, pt-BR"
+    Default: 'es'
+  GithubOauthToken:
+    Type: String
+    Description: OAuth token for GitHub private repository
+
+Resources:
+  AmplifyRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - amplify.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: Amplify
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: "amplify:*"
+                Resource: "*"
+        - PolicyName: Codecommit
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: "codecommit:GitPull"
+                Resource: "*"
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W11
+            reason: "Certain policies will implement wildcard permissions to expedite development. TODO: Replace on Production environment (Path to Production)"
+          - id: F3
+            reason: "Certain policies will implement wildcard permissions to expedite development. TODO: Replace on Production environment (Path to Production)"
+  
+  WebAppFrontend:
+    Type: AWS::Amplify::App
+    Properties:
+      Repository: !Ref GitRepoUrl
+      Name: WebAppAOSS
+      Description: Web app frontend
+      IAMServiceRole: !GetAtt AmplifyRole.Arn
+      OauthToken: !Ref GithubOauthToken
+      BuildSpec: |
+        version: 1
+        frontend:
+          phases:
+            preBuild:
+              commands:
+                - npm ci
+            build:
+              commands:
+                - npm run build
+          artifacts:
+            baseDirectory: dist
+            files:
+              - '**/*'
+          cache:
+            paths:
+              - node_modules/**/*
+      CustomRules:
+        - Source: "/<*>"
+          Target: /index.html
+          Status: 404-200
+        - Source: "</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|ttf|map|json|wasm|binarypb|data|tflite)$)([^.]+$)/>"
+          Target: /index.html
+          Status: 200
+      EnvironmentVariables:
+        - Name: VITE_API_GATEWAY_REST_API_ENDPOINT
+          Value: 
+            Ref: WebAppApiUrl
+        - Name: VITE_COGNITO_USER_POOL_ID
+          Value: 
+            Ref: WebAppUserPoolId
+        - Name: VITE_COGNITO_USER_POOL_CLIENT_ID
+          Value: 
+            Ref: WebAppUserPoolWebClientId
+        - Name: VITE_COGNITO_IDENTITY_POOL_ID
+          Value: 
+            Ref: WebAppIdentityPoolId
+        - Name: VITE_REGION_NAME
+          Value: 
+            Ref: DeploymentRegion
+        - Name: VITE_APP_NAME
+          Value: 
+            Ref: AppName
+        - Name: VITE_APP_LOGO_URL
+          Value: 
+            Ref: LogoUrl
+        - Name: VITE_PROTOTYPE_NAME
+          Value: 
+            Ref: PrototypeName
+        - Name: VITE_I18N_LANGUAGE
+          Value:
+            Ref: LanguageCode
+
+  WebAppFrontendBranch:
+    Type: AWS::Amplify::Branch
+    Properties:
+      BranchName: !Ref GitRepoBranch
+      AppId: !GetAtt WebAppFrontend.AppId
+      EnableAutoBuild: true
+  
+Outputs:
+  WebsiteURL:
+    Value: !Sub https://${WebAppFrontendBranch.BranchName}.${WebAppFrontend.DefaultDomain}/

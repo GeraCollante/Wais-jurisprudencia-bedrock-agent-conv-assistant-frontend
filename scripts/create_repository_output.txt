@@ -1,0 +1,14 @@
+{
+    "repositoryMetadata": {
+        "accountId": "211125555519",
+        "repositoryId": "293cdb52-b5cd-497b-b1d4-5279b804bb66",
+        "repositoryName": "mx225192-bedrock-agent-conv-assistant-frontend",
+        "repositoryDescription": "Frontend code for the Bedrock Conversational Assistant",
+        "lastModifiedDate": "2024-07-19T16:37:08.588000-03:00",
+        "creationDate": "2024-07-19T16:37:08.588000-03:00",
+        "cloneUrlHttp": "https://git-codecommit.us-east-1.amazonaws.com/v1/repos/mx225192-bedrock-agent-conv-assistant-frontend",
+        "cloneUrlSsh": "ssh://git-codecommit.us-east-1.amazonaws.com/v1/repos/mx225192-bedrock-agent-conv-assistant-frontend",
+        "Arn": "arn:aws:codecommit:us-east-1:211125555519:mx225192-bedrock-agent-conv-assistant-frontend",
+        "kmsKeyId": "arn:aws:kms:us-east-1:211125555519:key/178f22eb-9023-4829-be7e-1f69f26baf3b"
+    }
+}

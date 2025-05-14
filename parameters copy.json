@@ -1,0 +1,15 @@
+{
+  "Parameters": {
+    "GitRepoUrl": "https://git-codecommit.us-east-1.amazonaws.com/v1/repos/mx225192-repository",
+    "GitRepoBranch": "main",
+    "WebAppApiUrl": "https://4an7twlwc6.execute-api.us-east-1.amazonaws.com/api/", # MainBackendStackAOSSAgent2.ApiGatewayRestApiEndpoint
+    "WebAppUserPoolId": "us-east-1_PjPu2QBCf", # MainBackendStackAOSSAgent2.CognitoUserPoolId
+    "WebAppUserPoolWebClientId": "70d255m11a8d6s5cjolddgeuku", # CognitoUserPoolClientId
+    "WebAppIdentityPoolId": "us-east-1:b8f76a3a-a583-40dd-a72b-35d6160551a8", # MainBackendStackAOSSAgent2.CognitoIdentityPoolId
+    "DeploymentRegion": "us-east-1",
+    "AppName": "GenAI Assistant",
+    "PrototypeName": "WAIS",
+    "LogoUrl": "",
+    "LanguageCode": "es"
+  }
+}

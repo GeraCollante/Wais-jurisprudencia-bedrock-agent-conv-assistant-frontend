@@ -1,0 +1,45 @@
+{
+  "name": "transbank-genai-chatbot",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@aws-amplify/ui-react": "^5.2.0",
+    "@headlessui/react": "^1.7.17",
+    "@tabler/icons-react": "^2.32.0",
+    "aws-amplify": "^5.3.9",
+    "axios": "^1.4.0",
+    "framer-motion": "^10.16.1",
+    "i18next": "^23.6.0",
+    "nanoid": "^4.0.2",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-copy-to-clipboard": "^5.1.0",
+    "react-dom": "^18.2.0",
+    "react-i18next": "^13.3.1",
+    "react-router-dom": "^6.15.0",
+    "react-typist-component": "^1.0.5"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "autoprefixer": "^10.4.15",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "postcss": "^8.4.28",
+    "postcss-nesting": "^12.0.1",
+    "prettier": "^3.0.2",
+    "prettier-plugin-tailwindcss": "^0.5.3",
+    "tailwindcss": "^3.3.3",
+    "vite": "^4.4.5"
+  }
+}
