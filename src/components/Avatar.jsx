@@ -21,25 +21,25 @@ export default function Avatar({ avatarType, size }) {
 
   return (
     <div
-      className={`${sizeClasses} flex flex-none select-none rounded-full
+      className={`${sizeClasses} flex flex-none select-none items-center justify-center rounded-full
         ${
-          avatarType && avatarType === "bot"
-            ? "mr-2 bg-pink-600 dark:bg-pink-500"
-            : "ml-2 bg-orange-500 text-orange-200 dark:bg-orange-400 dark:text-orange-950"
+          avatarType === "bot"
+            ? "mr-2 bg-brand-bluegray-soft" // MODIFICADO: Fondo para bot
+            : "ml-2 bg-brand-gray-light"   // MODIFICADO: Fondo para usuario/default
         }`}
     >
       {avatarType === "user" && (
-        <span className="flex-1 text-center font-semibold">
+        <span className="text-center font-semibold text-brand-black">
           {username.charAt(0).toUpperCase()}
         </span>
       )}
 
       {avatarType === "bot" && (
-        <IconMessageChatbot className="m-auto stroke-pink-200" />
+        <IconMessageChatbot className="m-auto stroke-brand-black" />
       )}
 
       {!avatarType && (
-        <IconUser size={20} className="m-auto stroke-orange-200" />
+        <IconUser className="m-auto stroke-brand-black" size={20} />
       )}
     </div>
   );

@@ -22,6 +22,21 @@ export default {
           "Noto Color Emoji",
         ],
       },
+      colors: {
+        // Nueva Paleta de Colores Definida
+        "brand-white": "#FFFFFF",          // A: Blanco puro
+        "brand-gray-light": "#c3d7ee",    // B: Gris claro
+        "brand-bluegray-soft": "#BFCED6", // C: Gris azulado suave
+        "brand-gray-dark": "#AAAAAA",     // D: Gris oscuro
+        "brand-blue-deep": "#1C2D4A",     // E: Azul noche profundo
+        "brand-black": "#000000",         // F: Negro puro
+
+        // Colores anteriores (puedes decidir si mantenerlos o eliminarlos si ya no se usan)
+        // "logo-blue": "#2673B3",
+        // "logo-grey": "#5C5C5C",
+        // "logo-white": "#FFFFFF", // Duplicado por brand-white, se puede eliminar
+        // "input-prompt-blue": "#A8D0F0", // Reemplazado por la nueva paleta
+      },
     },
   },
   plugins: [],

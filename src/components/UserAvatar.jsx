@@ -3,12 +3,14 @@ import { IconMessageChatbot, IconUser } from "@tabler/icons-react";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 
 UserAvatar.propTypes = {
-  userType: PropTypes.oneOf(["user", "bot"]),
+  userType: PropTypes.oneOf(["user", "bot"]), // Cambiado de avatarType a userType
   size: PropTypes.oneOf([null, "user", "small"]),
 };
 
-export default function UserAvatar({ userType, size }) {
-  const { user } = useAuthenticator((context) => [context.user]);
+export default function UserAvatar({ userType, size }) { // Cambiado de avatarType a userType
+  const {
+    user: { username },
+  } = useAuthenticator((context) => [context.user]);
 
   const sizeVariants = {
     default: "h-10 w-10 leading-10 text-lg",
@@ -19,24 +21,26 @@ export default function UserAvatar({ userType, size }) {
 
   return (
     <div
-      className={`${sizeClasses} flex flex-none select-none rounded-full
+      className={`${sizeClasses} flex flex-none select-none items-center justify-center rounded-full
         ${
-          userType && userType === "bot"
-            ? "mr-2 bg-pink-600 dark:bg-pink-500"
-            : "ml-2 bg-orange-500 text-orange-200 dark:bg-orange-400 dark:text-orange-950"
+          userType === "bot" // Usando userType
+            ? "mr-2 bg-brand-bluegray-soft" // MODIFICADO: Fondo para bot (Color C)
+            : "ml-2 bg-brand-gray-light"   // MODIFICADO: Fondo para usuario/default (Color B)
         }`}
     >
-      {userType === "user" && (
-        <span className="flex-1 text-center font-semibold">
-          {user.username.charAt(0).toUpperCase()}
+      {userType === "user" && ( // Usando userType
+        <span className="text-center font-semibold text-brand-black"> {/* MODIFICADO: Color de texto para inicial de usuario (Color F) */}
+          {username.charAt(0).toUpperCase()}
         </span>
       )}
 
-      {userType === "bot" && (
-        <IconMessageChatbot className="m-auto stroke-pink-200" />
+      {userType === "bot" && ( // Usando userType
+        <IconMessageChatbot className="m-auto stroke-brand-black" /> {/* MODIFICADO: Color del icono de bot (Color F) */}
       )}
 
-      {!userType && <IconUser size={20} className="m-auto stroke-orange-200" />}
+      {!userType && ( // Usando userType
+        <IconUser size={20} className="m-auto stroke-brand-black" /> {/* MODIFICADO: Color del icono default (Color F) */}
+      )}
     </div>
   );
 }

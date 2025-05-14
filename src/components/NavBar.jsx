@@ -1,38 +1,63 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { IconLogout, IconMessageChatbot } from "@tabler/icons-react";
+import { IconLogout } from "@tabler/icons-react"; // IconMessageChatbot ya no se usa aquí
 import Avatar from "./Avatar";
 
-export default function NavBar() {
-  const { signOut } = useAuthenticator((context) => [context.user]);
+// Opcional: Importa las imágenes si no están en `public` y tu bundler lo soporta
+import logoMinisterio from "../assets/logo-corte-2019.webp";
+import logoWais from "../assets/react.svg";
 
-  const env = import.meta.env; // Vite environment variables
-  
-  // Guardar el valor en una variable
-  // const appName = env.VITE_APP_NAME;
-  const appName = "IBS Assistant";
-  const appLogoUrl = env.VITE_APP_LOGO_URL;
+export default function NavBar() {
+  const { signOut } = useAuthenticator((ctx) => [ctx.user]);
+  // const env = import.meta.env; // Ya no se usan directamente estas variables de entorno para los logos aquí
+  // const appName = env.VITE_APP_NAME || "IBS Assistant";
+  // const appLogoUrl = env.VITE_APP_LOGO_URL;
 
   return (
-    <nav className="mb-1 flex justify-between bg-white p-4 shadow-md">
-      <div className="hidden items-center lg:flex">
-        <h1 className="text-md font-bold leading-8 text-gray-800">
-          {appName}
-        </h1>
-        <IconMessageChatbot className="ml-1" />
+    <nav
+      className="
+        mb-1 flex items-center justify-between
+        bg-brand-white text-brand-black p-4 shadow-md
+      "
+    >
+      {/* Sección Izquierda: Logo Ministerio */}
+      <div className="flex items-center">
+        <img 
+          src={logoMinisterio} //"/ministerio_justicia.webp" // O usa la variable importada: src={logoMinisterio}
+          alt="Logo Ministerio de Justicia" 
+          className="h-10" // Ajusta la altura según necesites
+        />
       </div>
 
-      <img className="h-8" src={appLogoUrl} />
+      {/* Sección Central: Logo WAIS */}
+      {/* Para centrar, el div padre (nav) usa justify-between. 
+          Necesitamos asegurarnos de que las secciones izquierda y derecha tengan un ancho 
+          comparable o usar flex-grow en el centro, o un div vacío para equilibrar.
+          Una forma simple es que las secciones laterales tengan un flex-basis o width.
+          Aquí, como solo hay 3 elementos principales (izquierda, centro, derecha) 
+          y el padre es flex con justify-between, el del medio se centrará si 
+          los otros dos no ocupan todo el espacio.
+      */}
+      <div className="flex-grow flex justify-center"> {/* Contenedor para centrar el logo WAIS */}
+        <img 
+          src={logoWais}//"/wais.png" // O usa la variable importada: src={logoWais}
+          alt="Logo WAIS" 
+          className="h-8" // Ajusta la altura según necesites
+        />
+      </div>
+      
 
-      <div className="flex">
+      {/* Sección Derecha: Avatar y Logout */}
+      <div className="flex items-center space-x-4">
         <Avatar size="small" avatarType="user" />
-
         <button
           onClick={signOut}
-          className="ml-4 text-sm text-gray-600 hover:text-gray-800"
+          className="
+            text-brand-black hover:text-brand-blue-deep
+            focus:outline-none focus:ring-2 focus:ring-brand-blue-deep
+          "
+          aria-label="Cerrar sesión" // Añadido aria-label para accesibilidad
         >
-          <span className="font-bold">
-            <IconLogout />
-          </span>
+          <IconLogout size={20} />
         </button>
       </div>
     </nav>

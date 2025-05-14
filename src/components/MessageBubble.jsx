@@ -2,76 +2,82 @@ import MessageActions from "@components/MessageActions";
 import PropTypes from "prop-types";
 import Avatar from "@components/Avatar";
 import Typist from "react-typist-component";
-import Sources from "@components/Sources";
+import Sources from "@components/Sources"; // Usaremos este componente para mostrar las fuentes
 import { useState } from "react";
 
 // Propiedades esperadas para el componente MessageBubble
 MessageBubble.propTypes = {
-  message: PropTypes.object.isRequired, // El mensaje a mostrar
-  setMessageRating: PropTypes.func.isRequired, // Función para establecer la calificación del mensaje
+  message: PropTypes.object.isRequired,
+  setMessageRating: PropTypes.func.isRequired,
 };
 
 // Constante para controlar la velocidad de escritura en milisegundos
 const TYPING_DELAY = 8;
 
 export default function MessageBubble({ message, setMessageRating }) {
-  // Desestructuración de las propiedades del mensaje
   const { id, message_type, sources, content } = message;
+  // isTyping se inicializa a true para respuestas que no sean de bienvenida, para activar Typist.
+  // Se pondrá a false cuando Typist termine.
+  const [isTyping, setIsTyping] = useState(message_type === "answer" && id !== "welcome");
 
-  // Estado para manejar si el mensaje aún está siendo escrito
-  const [isTyping, setIsTyping] = useState(true);
-
-  // Función para dividir el contenido del mensaje en párrafos y líneas
-  const renderParagraphs = function (text) {
-    if (text) {
-      return text
-        .split("\n\n") // Divide el texto en párrafos
-        .map((paragraph, index) => (
-          <p key={`${id}-p-${index}`}>
-            {paragraph
-              .split("\n") // Divide cada párrafo en líneas
-              .reduce((total, line) => [
-                total,
-                <br key={`${id}-p-${index}-{line}`} />, // Agrega un salto de línea entre las líneas
-                line,
-              ])}
-          </p>
-        ));
-    }
+  const renderParagraphs = (text) => {
+    if (!text) return null;
+    return text.split("\n\n").map((para, pi) => (
+      <p key={`${id}-p-${pi}`} className="whitespace-pre-wrap">
+        {para.split("\n").reduce((acc, line, li) => [
+          ...acc,
+          li > 0 && <br key={`${id}-p-${pi}-br-${li}`} />,
+          line,
+        ], [])}
+      </p>
+    ));
   };
+
+  // Clases para el contenedor de la burbuja
+  const isAnswer = message_type === "answer";
+  const bubbleContainerBaseClasses = "rounded-b-xl p-4 text-brand-black"; // Texto F para ambas burbujas
+
+  const bubbleContainerSpecificClasses = isAnswer
+    ? "rounded-tr-xl bg-brand-bluegray-soft border border-brand-blue-deep" // Chatbot: Fondo C, Borde E
+    : "rounded-tl-xl bg-brand-gray-light border border-brand-gray-dark";  // Usuario: Fondo B, Borde D
 
   return (
     <div
-      className={`flex ${message_type === "answer" ? "" : "flex-row-reverse"}`}
+      className={`flex ${isAnswer ? "flex-row" : "flex-row-reverse"} gap-2`}
       id={`message-${id}`}
     >
-      {/* Componente Avatar para mostrar el avatar del usuario o del bot */}
       <Avatar avatarType={message_type === "question" ? "user" : "bot"} />
-      <div
-        className={`flex max-w-prose flex-col
-        gap-4 rounded-b-xl
-        ${
-          message_type === "answer"
-            ? "rounded-tr-xl bg-blue-200 p-4 dark:bg-blue-900"
-            : "rounded-tl-xl bg-slate-50 p-4 dark:bg-slate-800"
-        }  sm:max-w-md md:max-w-2xl`}
+
+      <div 
+        className={`flex max-w-prose flex-col gap-4 ${bubbleContainerBaseClasses} ${bubbleContainerSpecificClasses} sm:max-w-md md:max-w-2xl`}
       >
-        {message_type === "answer" ? (
+        {isAnswer ? (
           <>
-            {/* Componente Typist para simular la escritura del mensaje */}
-            <Typist typingDelay={TYPING_DELAY} onTypingDone={() => setIsTyping(false)}>
-              {renderParagraphs(content)}
-            </Typist>
-            {/* Componente Sources para mostrar las fuentes una vez que la escritura haya terminado */}
-            {sources && sources.length > 0 && !isTyping && <Sources sources={sources} />}
+            {id === "welcome" ? ( 
+              // Para el mensaje de bienvenida, renderizar directamente sin efecto Typist
+              renderParagraphs(content)
+            ) : (
+              // Para otras respuestas, usar Typist
+              <Typist 
+                typingDelay={TYPING_DELAY} 
+                // cursor={<span className='ml-1'>▋</span>} // PROP CURSOR ELIMINADA
+                onTypingDone={() => setIsTyping(false)}
+              >
+                {renderParagraphs(content)}
+              </Typist>
+            )}
+            {/* Mostrar el componente Sources si no está escribiendo y hay fuentes */}
+            {!isTyping && sources?.length > 0 && <Sources sources={sources} />}
+            
           </>
         ) : (
-          <>{renderParagraphs(content)}</>
+          // Para mensajes de pregunta (usuario), solo renderizar el contenido
+          renderParagraphs(content)
         )}
       </div>
 
-      {/* Componente MessageActions para permitir acciones en el mensaje (calificación) */}
-      {message_type === "answer" && !isTyping && id !== "welcome" && (
+      {/* Mostrar acciones del mensaje para respuestas (no bienvenida) cuando Typist ha terminado */}
+      {isAnswer && !isTyping && id !== "welcome" && (
         <MessageActions message={message} setMessageRating={setMessageRating} />
       )}
     </div>

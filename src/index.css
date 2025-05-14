@@ -3,51 +3,99 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Scrollbar */
-
-:root {
-  --scrollbar-thumb-color: rgb(29, 78, 216);
-  --scrollbar-track-color: transparent;
-  --scrollbar-border-color: #e5e7eb;
-  --scrollbar-border-color-dark: rgb(15, 23, 42);
+/* ————————————————————————————————————————
+   Global Styles: fondo y texto por defecto
+   ———————————————————————————————————————— */
+html,
+body,
+#root {
+  @apply bg-brand-white text-brand-black min-h-screen; /* Fondo A, Texto F */
+  margin: 0;
+  padding: 0;
 }
 
+/* ————————————————————————————————————————
+   Inputs / Textareas / Selects (Estilos base/fallback)
+   ———————————————————————————————————————— */
+input,
+textarea,
+select {
+  /* 
+    NOTA: Estos son estilos base. Componentes como InputPrompt.jsx 
+    pueden (y deberían) sobreescribirlos con clases más específicas.
+    Aquí usamos colores de borde y foco que sean genéricos y contrasten.
+  */
+  @apply border border-brand-gray-dark rounded-md px-3 py-2; /* Borde D */
+}
+input:focus,
+textarea:focus,
+select:focus {
+  @apply outline-none ring-1 ring-brand-blue-deep border-brand-blue-deep; /* Anillo y borde de foco E */
+}
+
+/* ————————————————————————————————————————
+   Scrollbar personalizado
+   ———————————————————————————————————————— */
 *::-webkit-scrollbar {
-  @apply w-5;
+  @apply w-2;
 }
-
 *::-webkit-scrollbar-track {
-  @apply bg-transparent;
+  background: transparent; /* El fondo general de la app (brand-white) se verá aquí */
 }
-
 *::-webkit-scrollbar-thumb {
-  @apply bg-slate-500 rounded-full border-solid border-8;
+  background-color: theme('colors.brand-blue-deep'); /* Pulgar E */
+  /* El borde del pulgar debe contrastar con el pulgar y ser visible sobre el track */
+  /* Si el track es brand-white, y el pulgar es brand-blue-deep, un borde brand-white está bien */
+  border: 3px solid theme('colors.brand-white'); /* Borde del pulgar A */
+  border-radius: 9999px;
 }
 
-@media (prefers-color-scheme: dark) {
-  *::-webkit-scrollbar-thumb {
-    @apply border-slate-900;
-  }
-}
+/* ————————————————————————————————————————
+   Tailwind Utilities para tu paleta de logo
+   (ya no son 'logo-*' sino 'brand-*', esta sección es un comentario informativo)
+   ———————————————————————————————————————— */
+/* — ejemplo de uso en JSX —
+   <div class="bg-brand-blue-deep text-brand-white">…</div>
+   <button class="bg-brand-blue-deep hover:bg-brand-blue-deep/90 text-brand-white">…</button>
+*/
 
-@media (prefers-color-scheme: light) {
-  *::-webkit-scrollbar-thumb {
-    @apply border-slate-200;
-  }
-}
-
-/* Amplify Theming */
-
+/* ————————————————————————————————————————
+   Theming de Amplify Authenticator
+   ———————————————————————————————————————— */
 [data-amplify-authenticator] {
   height: 100vh;
+  /* Puedes considerar aplicar aquí el bg-brand-white y text-brand-black si es necesario
+     aunque el html, body ya lo hacen. Podría ser útil si el authenticator
+     crea su propio contexto de stacking o fondo. */
+  /* @apply bg-brand-white text-brand-black; */
 }
-
 [data-amplify-router] {
   @apply rounded-xl;
+  /* Podrías querer añadir un fondo y borde si el default no es el deseado */
+  /* @apply bg-brand-white border border-brand-gray-light; */
 }
-
 [data-amplify-form] {
   .amplify-button--primary {
-    @apply rounded-full bg-pink-600 px-4 py-2 text-sm font-medium text-pink-50 hover:bg-pink-800 focus:outline-none focus:ring-4 focus:ring-pink-300 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800 sm:text-base disabled:bg-slate-500;
+    @apply rounded-full px-4 py-2 text-base font-semibold;
+    background-color: theme('colors.brand-blue-deep'); /* Botón primario fondo E */
+    color: theme('colors.brand-white'); /* Botón primario texto A */
   }
+  .amplify-button--primary:hover {
+    /* Usamos una opacidad para el hover como convención si no hay color específico */
+    background-color: color-mix(in srgb, theme('colors.brand-blue-deep') 90%, transparent);
+  }
+  .amplify-button--primary:disabled {
+    /* Para el estado deshabilitado, usando la paleta: */
+    @apply bg-brand-gray-light text-brand-black opacity-60; /* Fondo B, Texto F, con opacidad general */
+  }
+
+  /* Otros elementos de Amplify que podrías querer estilizar: */
+  /*
+  .amplify-input, .amplify-select select {
+    @apply border-brand-gray-dark focus:border-brand-blue-deep focus:ring-brand-blue-deep;
+  }
+  .amplify-label {
+    @apply text-brand-black;
+  }
+  */
 }
