@@ -1,3 +1,7 @@
+/* src/index.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap'); /* <-- MERRIWEATHER IMPORTADO */
+
 @import "@aws-amplify/ui-react/styles.css";
 @tailwind base;
 @tailwind components;
@@ -9,7 +13,7 @@
 html,
 body,
 #root {
-  @apply bg-brand-white text-brand-black min-h-screen; /* Fondo A, Texto F */
+  @apply bg-brand-white text-brand-black min-h-screen font-merriweather; /* Fondo A, Texto F, FUENTE MERRIWEATHER POR DEFECTO */
   margin: 0;
   padding: 0;
 }
@@ -26,6 +30,8 @@ select {
     Aquí usamos colores de borde y foco que sean genéricos y contrasten.
   */
   @apply border border-brand-gray-dark rounded-md px-3 py-2; /* Borde D */
+  /* Si quieres que los inputs también usen Merriweather por defecto, no necesitas hacer nada más aquí.
+     Si quieres que usen la fuente 'sans', puedes añadir: @apply font-sans; */
 }
 input:focus,
 textarea:focus,
@@ -40,62 +46,50 @@ select:focus {
   @apply w-2;
 }
 *::-webkit-scrollbar-track {
-  background: transparent; /* El fondo general de la app (brand-white) se verá aquí */
+  background: transparent;
 }
 *::-webkit-scrollbar-thumb {
-  background-color: theme('colors.brand-blue-deep'); /* Pulgar E */
-  /* El borde del pulgar debe contrastar con el pulgar y ser visible sobre el track */
-  /* Si el track es brand-white, y el pulgar es brand-blue-deep, un borde brand-white está bien */
-  border: 3px solid theme('colors.brand-white'); /* Borde del pulgar A */
+  background-color: theme('colors.brand-blue-deep'); 
+  border: 3px solid theme('colors.brand-white');
   border-radius: 9999px;
 }
 
 /* ————————————————————————————————————————
-   Tailwind Utilities para tu paleta de logo
-   (ya no son 'logo-*' sino 'brand-*', esta sección es un comentario informativo)
+   Tailwind Utilities (informativo)
    ———————————————————————————————————————— */
-/* — ejemplo de uso en JSX —
-   <div class="bg-brand-blue-deep text-brand-white">…</div>
-   <button class="bg-brand-blue-deep hover:bg-brand-blue-deep/90 text-brand-white">…</button>
-*/
+/* ... */
 
 /* ————————————————————————————————————————
    Theming de Amplify Authenticator
    ———————————————————————————————————————— */
 [data-amplify-authenticator] {
   height: 100vh;
-  /* Puedes considerar aplicar aquí el bg-brand-white y text-brand-black si es necesario
-     aunque el html, body ya lo hacen. Podría ser útil si el authenticator
-     crea su propio contexto de stacking o fondo. */
-  /* @apply bg-brand-white text-brand-black; */
+  /* Si Merriweather es global, ya lo heredará. 
+     Si no, y quieres que el authenticator use Merriweather, añade: @apply font-merriweather; */
 }
 [data-amplify-router] {
   @apply rounded-xl;
-  /* Podrías querer añadir un fondo y borde si el default no es el deseado */
-  /* @apply bg-brand-white border border-brand-gray-light; */
 }
 [data-amplify-form] {
   .amplify-button--primary {
-    @apply rounded-full px-4 py-2 text-base font-semibold;
-    background-color: theme('colors.brand-blue-deep'); /* Botón primario fondo E */
-    color: theme('colors.brand-white'); /* Botón primario texto A */
+    @apply rounded-full px-4 py-2 text-base font-semibold; /* Heredará Merriweather si es global, o puedes añadir font-sans si prefieres botones sans-serif */
+    background-color: theme('colors.brand-blue-deep'); 
+    color: theme('colors.brand-white');
   }
   .amplify-button--primary:hover {
-    /* Usamos una opacidad para el hover como convención si no hay color específico */
     background-color: color-mix(in srgb, theme('colors.brand-blue-deep') 90%, transparent);
   }
   .amplify-button--primary:disabled {
-    /* Para el estado deshabilitado, usando la paleta: */
-    @apply bg-brand-gray-light text-brand-black opacity-60; /* Fondo B, Texto F, con opacidad general */
+    @apply bg-brand-gray-light text-brand-black opacity-60;
   }
-
-  /* Otros elementos de Amplify que podrías querer estilizar: */
+  
+  /* Si quieres que los inputs y labels de Amplify usen una fuente específica: */
   /*
   .amplify-input, .amplify-select select {
-    @apply border-brand-gray-dark focus:border-brand-blue-deep focus:ring-brand-blue-deep;
+    @apply border-brand-gray-dark focus:border-brand-blue-deep focus:ring-brand-blue-deep font-sans; // O font-merriweather
   }
   .amplify-label {
-    @apply text-brand-black;
+    @apply text-brand-black font-sans; // O font-merriweather
   }
   */
 }

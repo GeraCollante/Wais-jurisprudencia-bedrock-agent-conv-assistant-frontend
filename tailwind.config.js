@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: [
+        sans: [ // Tu fuente sans-serif actual se mantiene
           "Amazon Ember",
           "ui-sans-serif",
           "system-ui",
@@ -21,6 +21,9 @@ export default {
           "Segoe UI Symbol",
           "Noto Color Emoji",
         ],
+        merriweather: ['Merriweather', 'serif'], // <-- AÑADE ESTA LÍNEA
+        // O, si prefieres usar 'font-serif' como la clase de Tailwind:
+        // serif: ['Merriweather', 'Georgia', 'Times New Roman', 'serif'],
       },
       colors: {
         // Nueva Paleta de Colores Definida
