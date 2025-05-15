@@ -3,7 +3,7 @@ import { IconLogout } from "@tabler/icons-react"; // IconMessageChatbot ya no se
 import Avatar from "./Avatar";
 
 // Opcional: Importa las imágenes si no están en `public` y tu bundler lo soporta
-import logoMinisterio from "../assets/logo-corte-2019.webp";
+import logoMinisterio from "../assets/tribunal_justicia.png";
 import logoWais from "../assets/react.svg";
 
 export default function NavBar() {
