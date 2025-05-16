@@ -3,7 +3,8 @@ import { IconLogout } from "@tabler/icons-react"; // IconMessageChatbot ya no se
 import Avatar from "./Avatar";
 
 // Opcional: Importa las imágenes si no están en `public` y tu bundler lo soporta
-import logoMinisterio from "../assets/tribunal_justicia.png";
+import logoMinisterio from "../assets/logo-horizontal.svg";
+import logoFAM from "../assets/fam.png";
 import logoWais from "../assets/wais_jurisprudencia.png";
 
 export default function NavBar() {
@@ -13,40 +14,42 @@ export default function NavBar() {
   // const appLogoUrl = env.VITE_APP_LOGO_URL;
 
   return (
+    <>
     <nav
       className="
-        mb-1 flex items-center justify-between
-        bg-brand-bg-surface text-brand-text-primary p-4 shadow-md
+        mb-1 relative flex items-center justify-between
+        bg-brand-bg-surface text-brand-text-primary py-8 shadow-md
       "
     >
-      {/* Sección Izquierda: Logo Ministerio */}
-      <div className="flex items-center">
+      {/* Sección Izquierda: Logo Ministerio + FAM */}
+      <div className="flex items-center space-x-4">
         <img 
-          src={logoMinisterio} //"/ministerio_justicia.webp" // O usa la variable importada: src={logoMinisterio}
-          alt="Logo Ministerio de Justicia" 
-          className="h-10" // Ajusta la altura según necesites
+          src={logoMinisterio}
+          alt="Logo Ministerio de Justicia"
+          className="h-20"
+        />
+        <img 
+          src={logoFAM}
+          alt="Logo FAM"
+          className="h-24"
         />
       </div>
 
-      {/* Sección Central: Logo WAIS */}
-      {/* Para centrar, el div padre (nav) usa justify-between. 
-          Necesitamos asegurarnos de que las secciones izquierda y derecha tengan un ancho 
-          comparable o usar flex-grow en el centro, o un div vacío para equilibrar.
-          Una forma simple es que las secciones laterales tengan un flex-basis o width.
-          Aquí, como solo hay 3 elementos principales (izquierda, centro, derecha) 
-          y el padre es flex con justify-between, el del medio se centrará si 
-          los otros dos no ocupan todo el espacio.
-      */}
-      <div className="flex-grow flex justify-center"> {/* Contenedor para centrar el logo WAIS */}
+      {/* Sección Central: Logo WAIS (centrado absoluto) */}
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center pointer-events-none" style={{zIndex:1, width:'fit-content'}}>
         <img 
-          src={logoWais}//"/wais.png" // O usa la variable importada: src={logoWais}
-          alt="Logo WAIS" 
-          className="h-8" // Ajusta la altura según necesites
+          src={logoWais}
+          alt="Logo WAIS"
+          className="h-10"
         />
+        <span style={{ fontFamily: 'Arial, sans-serif' }} className="mt-1 text-xs text-brand-text-muted text-center">
+          Realizado por Wais
+        </span>
       </div>
       
 
       {/* Sección Derecha: Avatar y Logout */}
+      {/* El logo WAIS está centrado absolutamente, así que no afecta el layout de las otras secciones */}
       <div className="flex items-center space-x-4">
         <Avatar size="small" avatarType="user" />
         <button
@@ -61,5 +64,6 @@ export default function NavBar() {
         </button>
       </div>
     </nav>
+    </>
   );
 }
