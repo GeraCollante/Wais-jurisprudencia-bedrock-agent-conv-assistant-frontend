@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { IconMessageChatbot, IconUser } from "@tabler/icons-react";
+import { IconScale, IconUser } from "@tabler/icons-react";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 
 Avatar.propTypes = {
@@ -24,22 +24,22 @@ export default function Avatar({ avatarType, size }) {
       className={`${sizeClasses} flex flex-none select-none items-center justify-center rounded-full
         ${
           avatarType === "bot"
-            ? "mr-2 bg-brand-bluegray-soft" // MODIFICADO: Fondo para bot
-            : "ml-2 bg-brand-gray-light"   // MODIFICADO: Fondo para usuario/default
+            ? "mr-2 bg-brand-primary-200" // Fondo para bot
+            : "ml-2 bg-brand-secondary-100"   // Fondo para usuario/default
         }`}
     >
       {avatarType === "user" && (
-        <span className="text-center font-semibold text-brand-black">
+        <span className="text-center font-semibold text-brand-text-primary">
           {username.charAt(0).toUpperCase()}
         </span>
       )}
 
       {avatarType === "bot" && (
-        <IconMessageChatbot className="m-auto stroke-brand-black" />
+        <IconScale className="m-auto stroke-brand-text-primary" />
       )}
 
       {!avatarType && (
-        <IconUser className="m-auto stroke-brand-black" size={20} />
+        <IconUser className="m-auto stroke-brand-text-primary" size={20} />
       )}
     </div>
   );

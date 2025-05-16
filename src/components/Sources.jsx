@@ -34,18 +34,17 @@ export default function Sources({ sources }) {
     <Disclosure>
       {({ open }) => (
         /* Contenedor principal del componente Sources */
-        <div className="w-fit max-w-full rounded-md bg-brand-bluegray-soft/30 p-0"> 
+        <div className="w-fit max-w-full rounded-md bg-brand-primary-100 p-0"> 
           <Disclosure.Button className="
-            flex w-full items-center rounded-md bg-brand-bluegray-soft/50 p-2 text-left text-xs 
-            font-medium text-brand-blue-deep
-            focus:outline-none focus-visible:ring focus-visible:ring-brand-blue-deep
+            flex w-full items-center rounded-md bg-brand-primary-100/50 p-2 text-left text-xs font-medium text-brand-primary-900
+            focus:outline-none focus-visible:ring focus-visible:ring-brand-primary-900
           ">
             <IconChevronRight
-              className={`mr-1 h-4 w-4 transform ${open ? "rotate-90" : ""} text-brand-blue-deep`}
+              className={`mr-1 h-4 w-4 transform ${open ? "rotate-90" : ""} text-brand-primary-900`}
             />
             Fuentes:
             {/* El contador ahora muestra la cantidad de documentos ÚNICOS */}
-            <div className="ml-1 inline-flex items-center justify-center rounded-full bg-brand-blue-deep px-2 text-xs text-brand-white">
+            <div className="ml-1 inline-flex items-center justify-center rounded-full bg-brand-primary-900 px-2 text-xs text-brand-text-light">
               {uniqueDocumentNames.length} 
             </div>
           </Disclosure.Button>
@@ -58,7 +57,7 @@ export default function Sources({ sources }) {
             leaveTo="transform scale-95 opacity-0"
           >
             {/* Panel desplegable con la lista de fuentes */}
-            <Disclosure.Panel className="p-3 pr-4 text-xs text-brand-black">
+            <Disclosure.Panel className="p-3 pr-4 text-xs text-brand-text-primary">
               {uniqueDocumentNames.length > 0 ? (
                 <ul className="flex flex-col gap-2">
                   {/* Mapear sobre los nombres de documentos ÚNICOS */}
@@ -68,9 +67,9 @@ export default function Sources({ sources }) {
                       title={`Documento: ${docName}`} // Título actualizado para mostrar solo el nombre del documento
                       key={docName} // Usar docName como key, ya que es único en esta lista
                     >
-                      <IconFileText className="mr-1 inline h-4 w-4 flex-shrink-0 text-brand-blue-deep" />
+                      <IconFileText className="mr-1 inline h-4 w-4 flex-shrink-0 text-brand-primary-900" />
                       {/* Nombre del documento */}
-                      <span className="font-mono text-brand-black">
+                      <span className="font-mono text-brand-text-primary">
                         {docName}
                       </span>
                       {/* La información de la página y IconArrowRight han sido eliminados */}
@@ -79,7 +78,7 @@ export default function Sources({ sources }) {
                 </ul>
               ) : (
                 // Opcional: Mostrar un mensaje si no hay fuentes únicas después del procesamiento
-                <p className="text-brand-gray-dark">No hay fuentes referenciadas.</p>
+                <p className="text-brand-text-muted">No hay fuentes referenciadas.</p>
               )}
             </Disclosure.Panel>
           </Transition>

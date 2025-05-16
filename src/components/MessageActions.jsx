@@ -29,14 +29,14 @@ export default function MessageActions({ message /*, setMessageRating (ya no se 
   // ya que no se usan para la funcionalidad de rating.
 
   return (
-    <div className="ml-2 mt-1 flex text-brand-black"> {/* Eliminado gap-2 si solo hay un botón */}
+    <div className="ml-2 mt-1 flex text-brand-text-primary"> {/* Eliminado gap-2 si solo hay un botón */}
       <CopyToClipboard text={message.content} onCopy={handleCopy}>
         <button 
-          className="hover:text-brand-blue-deep focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue-deep focus-visible:ring-offset-1" 
+          className="hover:text-brand-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary-700 focus-visible:ring-offset-1" 
           aria-label="Copiar mensaje"
         >
           {isCopied ? (
-            <IconCheck className="w-5 text-brand-blue-deep" />
+            <IconCheck className="w-5 text-brand-primary-700" />
           ) : (
             <IconCopy className="w-5" />
           )}

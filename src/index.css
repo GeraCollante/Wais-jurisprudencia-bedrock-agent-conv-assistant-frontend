@@ -13,7 +13,7 @@
 html,
 body,
 #root {
-  @apply bg-brand-white text-brand-black min-h-screen font-merriweather; /* Fondo A, Texto F, FUENTE MERRIWEATHER POR DEFECTO */
+  @apply bg-brand-bg-surface text-brand-text-primary min-h-screen font-merriweather; /* Fondo surface, texto primary, FUENTE MERRIWEATHER POR DEFECTO */
   margin: 0;
   padding: 0;
 }
@@ -29,14 +29,14 @@ select {
     pueden (y deberían) sobreescribirlos con clases más específicas.
     Aquí usamos colores de borde y foco que sean genéricos y contrasten.
   */
-  @apply border border-brand-gray-dark rounded-md px-3 py-2; /* Borde D */
+  @apply border border-brand-secondary-400 rounded-md px-3 py-2; /* Borde gray-400 */
   /* Si quieres que los inputs también usen Merriweather por defecto, no necesitas hacer nada más aquí.
      Si quieres que usen la fuente 'sans', puedes añadir: @apply font-sans; */
 }
 input:focus,
 textarea:focus,
 select:focus {
-  @apply outline-none ring-1 ring-brand-blue-deep border-brand-blue-deep; /* Anillo y borde de foco E */
+  @apply outline-none ring-1 ring-brand-primary-900 border-brand-primary-900; /* Anillo y borde de foco primary-900 */
 }
 
 /* ————————————————————————————————————————
@@ -49,8 +49,8 @@ select:focus {
   background: transparent;
 }
 *::-webkit-scrollbar-thumb {
-  background-color: theme('colors.brand-blue-deep'); 
-  border: 3px solid theme('colors.brand-white');
+  background-color: theme('colors.brand-primary.900'); 
+  border: 3px solid theme('colors.brand-bg.surface');
   border-radius: 9999px;
 }
 
@@ -73,23 +73,23 @@ select:focus {
 [data-amplify-form] {
   .amplify-button--primary {
     @apply rounded-full px-4 py-2 text-base font-semibold; /* Heredará Merriweather si es global, o puedes añadir font-sans si prefieres botones sans-serif */
-    background-color: theme('colors.brand-blue-deep'); 
-    color: theme('colors.brand-white');
+    background-color: theme('colors.brand-primary.900'); 
+    color: theme('colors.brand-text.light');
   }
   .amplify-button--primary:hover {
-    background-color: color-mix(in srgb, theme('colors.brand-blue-deep') 90%, transparent);
+    background-color: color-mix(in srgb, theme('colors.brand-primary.900') 90%, transparent);
   }
   .amplify-button--primary:disabled {
-    @apply bg-brand-gray-light text-brand-black opacity-60;
+    @apply bg-brand-secondary-100 text-brand-text-primary opacity-60;
   }
   
   /* Si quieres que los inputs y labels de Amplify usen una fuente específica: */
   /*
   .amplify-input, .amplify-select select {
-    @apply border-brand-gray-dark focus:border-brand-blue-deep focus:ring-brand-blue-deep font-sans; // O font-merriweather
+    @apply border-brand-secondary-400 focus:border-brand-primary-900 focus:ring-brand-primary-900 font-sans; // O font-merriweather
   }
   .amplify-label {
-    @apply text-brand-black font-sans; // O font-merriweather
+    @apply text-brand-text-primary font-sans; // O font-merriweather
   }
   */
 }

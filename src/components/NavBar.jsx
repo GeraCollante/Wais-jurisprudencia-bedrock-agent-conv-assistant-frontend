@@ -16,7 +16,7 @@ export default function NavBar() {
     <nav
       className="
         mb-1 flex items-center justify-between
-        bg-brand-white text-brand-black p-4 shadow-md
+        bg-brand-bg-surface text-brand-text-primary p-4 shadow-md
       "
     >
       {/* Sección Izquierda: Logo Ministerio */}
@@ -52,8 +52,8 @@ export default function NavBar() {
         <button
           onClick={signOut}
           className="
-            text-brand-black hover:text-brand-blue-deep
-            focus:outline-none focus:ring-2 focus:ring-brand-blue-deep
+            text-brand-text-primary hover:text-brand-primary-900
+            focus:outline-none focus:ring-2 focus:ring-brand-primary-900
           "
           aria-label="Cerrar sesión" // Añadido aria-label para accesibilidad
         >

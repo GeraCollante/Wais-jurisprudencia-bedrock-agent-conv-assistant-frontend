@@ -46,11 +46,11 @@ export default function InputPrompt({ sendMessage, LoaderContext }) {
           }
           className="
             block w-full resize-none rounded-xl border
-            bg-brand-bluegray-soft text-brand-black placeholder-brand-black/60 /* Fondo C, Texto F, Placeholder F con opacidad */
-            border-brand-blue-deep /* Borde E */
+            bg-brand-primary-200 text-brand-text-primary placeholder-brand-text-primary/60 /* Fondo primary-200, Texto primary, Placeholder primary con opacidad */
+            border-brand-primary-900 /* Borde primary-900 */
             p-5 pr-20 text-sm
-            focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-brand-blue-deep /* Anillo de foco E, con offset */
-            disabled:bg-brand-bluegray-soft/70 disabled:text-brand-black/70 disabled:border-brand-blue-deep/70 /* Estado deshabilitado */
+            focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-brand-primary-900 /* Anillo de foco primary-900, con offset */
+            disabled:bg-brand-primary-200/70 disabled:text-brand-text-primary/70 disabled:border-brand-primary-900/70 /* Estado deshabilitado */
             sm:text-base
           "
         />
@@ -59,10 +59,10 @@ export default function InputPrompt({ sendMessage, LoaderContext }) {
           disabled={isLoading}
           className="
             absolute right-2.5 bottom-3 rounded-full
-            bg-brand-blue-deep px-4 py-2 text-sm font-medium text-brand-white /* Fondo E, Texto A */
-            hover:bg-brand-blue-deep/90 /* Hover sobre E */
-            focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-brand-blue-deep/80 /* Anillo de foco E más claro, con offset */
-            disabled:bg-brand-gray-light disabled:text-brand-black/50 /* Deshabilitado: Fondo B, Texto F con opacidad */
+            bg-brand-primary-900 px-4 py-2 text-sm font-medium text-brand-text-light /* Fondo primary-900, Texto light */
+            hover:bg-brand-primary-900/90 /* Hover sobre primary-900 */
+            focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-brand-primary-900/80 /* Anillo de foco primary-900 más claro, con offset */
+            disabled:bg-brand-secondary-100 disabled:text-brand-text-primary/50 /* Deshabilitado: Fondo secondary-100, Texto primary con opacidad */
             sm:text-base
           "
         >

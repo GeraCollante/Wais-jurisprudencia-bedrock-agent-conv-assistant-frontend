@@ -24,22 +24,22 @@ export default function UserAvatar({ userType, size }) { // Cambiado de avatarTy
       className={`${sizeClasses} flex flex-none select-none items-center justify-center rounded-full
         ${
           userType === "bot" // Usando userType
-            ? "mr-2 bg-brand-bluegray-soft" // MODIFICADO: Fondo para bot (Color C)
-            : "ml-2 bg-brand-gray-light"   // MODIFICADO: Fondo para usuario/default (Color B)
+            ? "mr-2 bg-brand-primary-200" // Fondo para bot
+            : "ml-2 bg-brand-secondary-100"   // Fondo para usuario/default
         }`}
     >
       {userType === "user" && ( // Usando userType
-        <span className="text-center font-semibold text-brand-black"> {/* MODIFICADO: Color de texto para inicial de usuario (Color F) */}
+        <span className="text-center font-semibold text-brand-text-primary">
           {username.charAt(0).toUpperCase()}
         </span>
       )}
 
       {userType === "bot" && ( // Usando userType
-        <IconMessageChatbot className="m-auto stroke-brand-black" /> {/* MODIFICADO: Color del icono de bot (Color F) */}
+        <IconMessageChatbot className="m-auto stroke-brand-text-primary" />
       )}
 
       {!userType && ( // Usando userType
-        <IconUser size={20} className="m-auto stroke-brand-black" /> {/* MODIFICADO: Color del icono default (Color F) */}
+        <IconUser size={20} className="m-auto stroke-brand-text-primary" />
       )}
     </div>
   );

@@ -23,7 +23,7 @@ export default function MessageBubble({ message, setMessageRating }) {
   const renderParagraphs = (text) => {
     if (!text) return null;
     return text.split("\n\n").map((para, pi) => (
-      <p key={`${id}-p-${pi}`} className="whitespace-pre-wrap">
+      <p key={`${id}-p-${pi}`} className="whitespace-pre-wrap text-brand-text-primary">
         {para.split("\n").reduce((acc, line, li) => [
           ...acc,
           li > 0 && <br key={`${id}-p-${pi}-br-${li}`} />,
@@ -35,11 +35,11 @@ export default function MessageBubble({ message, setMessageRating }) {
 
   // Clases para el contenedor de la burbuja
   const isAnswer = message_type === "answer";
-  const bubbleContainerBaseClasses = "rounded-b-xl p-4 text-brand-black"; // Texto F para ambas burbujas
+  const bubbleContainerBaseClasses = "rounded-b-xl p-4 text-brand-text-primary"; // Texto primary para ambas burbujas
 
   const bubbleContainerSpecificClasses = isAnswer
-    ? "rounded-tr-xl bg-brand-bluegray-soft border border-brand-blue-deep" // Chatbot: Fondo C, Borde E
-    : "rounded-tl-xl bg-brand-gray-light border border-brand-gray-dark";  // Usuario: Fondo B, Borde D
+    ? "rounded-tr-xl bg-brand-primary-200 border border-brand-primary-900" // Chatbot: Fondo primary-200, Borde primary-900
+    : "rounded-tl-xl bg-brand-secondary-100 border border-brand-secondary-400";  // Usuario: Fondo secondary-100, Borde secondary-400
 
   return (
     <div
