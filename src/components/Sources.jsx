@@ -59,22 +59,26 @@ export default function Sources({ sources }) {
             {/* Panel desplegable con la lista de fuentes */}
             <Disclosure.Panel className="p-3 pr-4 text-xs text-brand-text-primary">
               {uniqueDocumentNames.length > 0 ? (
-                <ul className="flex flex-col gap-2">
-                  {/* Mapear sobre los nombres de documentos ÚNICOS */}
-                  {uniqueDocumentNames.map((docName) => ( // 'index' ya no es necesario para la key si docName es único
-                    <li
-                      className="truncate flex items-center"
-                      title={`Documento: ${docName}`} // Título actualizado para mostrar solo el nombre del documento
-                      key={docName} // Usar docName como key, ya que es único en esta lista
-                    >
-                      <IconFileText className="mr-1 inline h-4 w-4 flex-shrink-0 text-brand-primary-900" />
-                      {/* Nombre del documento */}
-                      <span className="font-mono text-brand-text-primary">
-                        {docName}
-                      </span>
-                      {/* La información de la página y IconArrowRight han sido eliminados */}
-                    </li>
-                  ))}
+                <ul className="mt-2 space-y-1">
+                  {uniqueDocumentNames.map((docName) => {
+                    const s3Url = `https://wais-jurisprudencia-tucuman.s3.us-east-1.amazonaws.com/${docName}.pdf`;
+                    return (
+                      <li key={docName} className="flex items-center">
+                        <IconFileText className="mr-1 h-4 w-4 text-brand-primary-900" />
+                        <span className="truncate font-mono text-brand-primary-900" title={docName}>
+                          {docName}
+                        </span>
+                        <a
+                          href={s3Url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="ml-2 text-brand-primary-900 underline hover:text-brand-primary-700"
+                        >
+                          Ver PDF
+                        </a>
+                      </li>
+                    );
+                  })}
                 </ul>
               ) : (
                 // Opcional: Mostrar un mensaje si no hay fuentes únicas después del procesamiento
