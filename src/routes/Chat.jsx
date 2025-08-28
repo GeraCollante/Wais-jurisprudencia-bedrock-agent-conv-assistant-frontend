@@ -15,17 +15,22 @@ const LoaderContext = createContext(false);
 // Generación de un ID de sesión único usando nanoid
 const sessionId = customAlphabet("1234567890", 20)();
 
-// URL del servidor WebSocket, cambiarla por la de tu servidor
-const wsURL = "wss://ka7psvo5u9.execute-api.us-east-1.amazonaws.com/dev"; 
+// URL del servidor WebSocket desde variable de entorno
+const wsURL = import.meta.env.VITE_WEBSOCKET_URL || "wss://ka7psvo5u9.execute-api.us-east-1.amazonaws.com/dev"; 
 
-export default function Chat() {
+export default function Chat({ custom_session_id = null }) {
   const { t } = useTranslation();
   const initialMessages = [
     { id: "welcome", content: t("welcome"), message_type: "answer" },
   ];
-  const [currentSessionId] = useState(sessionId);
+  
+  // Session ID management - preparado para DynamoDB
+  const effectiveSessionId = custom_session_id || sessionId;
+  const [currentSessionId] = useState(effectiveSessionId);
+  
   const [messages, setMessages] = useState((mockMessages && initialMessages) || []);
   const [isLoading, setIsLoading] = useState(false);
+  
   const {
     user: { username },
   } = useAuthenticator((context) => [context.user]);
@@ -90,6 +95,7 @@ export default function Chat() {
         ws.current.onerror = (err) => {
           console.error("WS Error:", err);
         };
+        
         ws.current.onclose = (e) => {
           console.log("WS cerrado:", e);
         };

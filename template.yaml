@@ -19,6 +19,9 @@ Parameters:
   WebAppIdentityPoolId:
     Type: String
     Description: Web app Identity Pool Id
+  WebSocketUrl:
+    Type: String
+    Description: WebSocket API Gateway endpoint URL
   DeploymentRegion:
     Type: String
     Description: Deployment region
@@ -139,6 +142,9 @@ Resources:
         - Name: VITE_I18N_LANGUAGE
           Value:
             Ref: LanguageCode
+        - Name: VITE_WEBSOCKET_URL
+          Value:
+            Ref: WebSocketUrl
 
   WebAppFrontendBranch:
     Type: AWS::Amplify::Branch

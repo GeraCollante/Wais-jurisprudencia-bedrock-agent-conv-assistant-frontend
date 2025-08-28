@@ -16,6 +16,9 @@ import Root from "@routes/Root";
 import Chat from "@routes/Chat";
 import Error from "@routes/Error";
 
+// Definir un booleano para permitir o no el uso de StrictMode
+const useStrictMode = false; // Cambia a false para deshabilitar StrictMode
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />} errorElement={<Error />}>
@@ -24,10 +27,12 @@ const router = createBrowserRouter(
   )
 );
 
+const app = (
+  <Authenticator hideSignUp={true}>
+    <RouterProvider router={router} />
+  </Authenticator>
+);
+
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Authenticator hideSignUp={true}>
-      <RouterProvider router={router} />
-    </Authenticator>
-  </React.StrictMode>
+  useStrictMode ? <React.StrictMode>{app}</React.StrictMode> : app
 );
