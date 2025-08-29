@@ -121,7 +121,7 @@ export default function MessageBubble({ message, setMessageRating }) {
               renderParagraphs(content)
             )}
             {/* Mostrar el componente Sources si no está escribiendo y hay fuentes */}
-            {!isTyping && sources?.length > 0 && <Sources sources={sources} />}
+            {/* {!isTyping && sources?.length > 0 && <Sources sources={sources} />} */}
             
           </>
         ) : (
