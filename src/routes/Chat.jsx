@@ -16,7 +16,7 @@ const LoaderContext = createContext(false);
 const sessionId = customAlphabet("1234567890", 20)();
 
 // URL del servidor WebSocket desde variable de entorno
-const wsURL = import.meta.env.VITE_WEBSOCKET_URL || "wss://ka7psvo5u9.execute-api.us-east-1.amazonaws.com/dev"; 
+const wsURL = import.meta.env.VITE_WEBSOCKET_URL || "wss://iah8v2qkz2.execute-api.us-east-1.amazonaws.com/dev"; 
 
 export default function Chat({ custom_session_id = null }) {
   const { t } = useTranslation();
@@ -68,8 +68,8 @@ export default function Chat({ custom_session_id = null }) {
 
           let questionText = "";
           try {
-            const orig = JSON.parse(data.original_query);
-            questionText = orig.query.trim();
+            // Nueva estructura: original_query es string directo
+            questionText = data.original_query ? data.original_query.trim() : "";
             console.log("Extracted questionText:", questionText);
           } catch (err) {
             console.warn("Falló extraer original_query:", err);
@@ -116,13 +116,10 @@ export default function Chat({ custom_session_id = null }) {
     console.log("sendMessage mensaje:", message);
     setMessages((prev) => [...prev, message]);
     setIsLoading(true);
-    const queryObject = JSON.stringify({
-      query: message.content,
-      session_id: currentSessionId,
-    });
-    console.log("Enviando por WS:", queryObject);
+    const query = message.content;
+    console.log("Enviando por WS:", query);
     if (ws.current && ws.current.readyState === WebSocket.OPEN) {
-      ws.current.send(queryObject);
+      ws.current.send(query);
     } else {
       console.warn("Intentando enviar mensaje con WS no abierto");
     }
