@@ -16,7 +16,7 @@ const LoaderContext = createContext(false);
 const sessionId = customAlphabet("1234567890", 20)();
 
 // URL del servidor WebSocket desde variable de entorno
-const wsURL = "wss://iah8v2qkz2.execute-api.us-east-1.amazonaws.com/dev"; 
+const wsURL = "wss://xhy5ual0z9.execute-api.us-east-1.amazonaws.com/dev/"; 
 
 export default function Chat({ custom_session_id = null }) {
   const { t } = useTranslation();
