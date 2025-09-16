@@ -16,6 +16,10 @@ body,
   @apply bg-brand-bg-surface text-brand-text-primary min-h-screen font-merriweather; /* Fondo surface, texto primary, FUENTE MERRIWEATHER POR DEFECTO */
   margin: 0;
   padding: 0;
+  /* Mobile optimizations */
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* ————————————————————————————————————————
@@ -30,6 +34,8 @@ select {
     Aquí usamos colores de borde y foco que sean genéricos y contrasten.
   */
   @apply border border-brand-secondary-400 rounded-md px-3 py-2; /* Borde gray-400 */
+  /* Mobile optimizations */
+  font-size: 16px; /* Prevent zoom on iOS */
   /* Si quieres que los inputs también usen Merriweather por defecto, no necesitas hacer nada más aquí.
      Si quieres que usen la fuente 'sans', puedes añadir: @apply font-sans; */
 }

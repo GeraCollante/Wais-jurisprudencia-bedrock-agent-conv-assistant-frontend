@@ -88,7 +88,7 @@ export default function MessageBubble({ message, setMessageRating }) {
 
   // Clases para el contenedor de la burbuja
   const isAnswer = message_type === "answer";
-  const bubbleContainerBaseClasses = "rounded-b-xl p-4 text-brand-text-primary"; // Texto primary para ambas burbujas
+  const bubbleContainerBaseClasses = "rounded-b-xl p-3 md:p-4 text-brand-text-primary"; // Texto primary para ambas burbujas
 
   const bubbleContainerSpecificClasses = isAnswer
     ? "rounded-tr-xl bg-brand-primary-200 border border-brand-primary-900" // Chatbot: Fondo primary-200, Borde primary-900
@@ -96,13 +96,15 @@ export default function MessageBubble({ message, setMessageRating }) {
 
   return (
     <div
-      className={`flex ${isAnswer ? "flex-row" : "flex-row-reverse"} gap-2`}
+      className={`flex ${isAnswer ? "flex-col md:flex-row" : "flex-col-reverse md:flex-row-reverse"} gap-2 md:gap-2`}
       id={`message-${id}`}
     >
-      <Avatar avatarType={message_type === "question" ? "user" : "bot"} />
+      <div className="flex justify-center md:block">
+        <Avatar avatarType={message_type === "question" ? "user" : "bot"} />
+      </div>
 
       <div 
-        className={`flex max-w-prose flex-col gap-4 ${bubbleContainerBaseClasses} ${bubbleContainerSpecificClasses} sm:max-w-md md:max-w-2xl`}
+        className={`flex max-w-full md:max-w-prose flex-col gap-3 md:gap-4 ${bubbleContainerBaseClasses} ${bubbleContainerSpecificClasses} sm:max-w-md md:max-w-2xl`}
       >
         {isAnswer ? (
           <>
@@ -132,7 +134,9 @@ export default function MessageBubble({ message, setMessageRating }) {
 
       {/* Mostrar acciones del mensaje para respuestas (no bienvenida) cuando Typist ha terminado */}
       {isAnswer && !isTyping && id !== "welcome" && (
-        <MessageActions message={message} setMessageRating={setMessageRating} />
+        <div className="flex justify-center md:block mt-2 md:mt-0">
+          <MessageActions message={message} setMessageRating={setMessageRating} />
+        </div>
       )}
     </div>
   );

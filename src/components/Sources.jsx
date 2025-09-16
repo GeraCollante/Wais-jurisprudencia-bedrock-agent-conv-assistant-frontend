@@ -113,9 +113,9 @@ export default function Sources({ sources }) {
             leaveTo="transform scale-95 opacity-0"
           >
             {/* Panel desplegable con la lista de fuentes */}
-            <Disclosure.Panel className="p-3 pr-4 text-xs text-brand-text-primary">
+            <Disclosure.Panel className="p-3 pr-4 text-xs md:text-xs text-brand-text-primary">
               {processedSources.length > 0 ? (
-                <ul className="mt-2 space-y-2">
+                <ul className="mt-2 space-y-3 md:space-y-2">
                   {processedSources.map((source, index) => {
                     // Usar pdf_url si está disponible, sino construir URL como antes
                     const pdfUrl = source.pdf_url || `https://wais-jurisprudencia-tucuman.s3.us-east-1.amazonaws.com/${source.document}.pdf`;
@@ -134,34 +134,35 @@ export default function Sources({ sources }) {
                     const shouldShowMateria = source.materia && source.materia !== 'N/A' && source.materia !== 'None' && source.materia.toLowerCase() !== 'penal';
                     
                     return (
-                      <li key={source.pdf_url || source.id || docName} className={`flex flex-col space-y-1 p-2 rounded ${source.is_critical ? 'bg-brand-primary-50 border border-brand-primary-200' : 'bg-white'}`}>
-                        <div className="flex items-start justify-between">
+                      <li key={source.pdf_url || source.id || docName} className={`flex flex-col space-y-2 p-3 md:p-2 rounded ${source.is_critical ? 'bg-brand-primary-50 border border-brand-primary-200' : 'bg-white'}`}>
+                        {/* Mobile: Layout vertical, Desktop: Layout horizontal */}
+                        <div className="flex flex-col md:flex-row md:items-start md:justify-between space-y-2 md:space-y-0">
                           <div className="flex items-start flex-1 min-w-0">
-                            <IconFileText className="mr-2 h-4 w-4 text-brand-primary-900 flex-shrink-0 mt-0.5" />
+                            <IconFileText className="mr-2 h-5 w-5 md:h-4 md:w-4 text-brand-primary-900 flex-shrink-0 mt-0.5" />
                             <div className="flex-1 min-w-0">
                               {/* Título formateado del documento */}
-                              <span className="block font-medium text-brand-primary-900 truncate" title={docName}>
+                              <span className="block font-medium text-brand-primary-900 text-sm md:text-xs truncate" title={docName}>
                                 {docName}
                               </span>
                               {/* ID del archivo como subtítulo */}
                               {fileId && (
-                                <span className="block text-xs text-gray-500 font-mono mt-1">
+                                <span className="block text-sm md:text-xs text-gray-500 font-mono mt-1">
                                   {fileId}.pdf
                                 </span>
                               )}
                               {shouldShowTribunal && (
-                                <span className="block text-xs text-gray-600 truncate mt-1" title={source.tribunal}>
+                                <span className="block text-sm md:text-xs text-gray-600 truncate mt-1" title={source.tribunal}>
                                   📍 {source.tribunal}
                                 </span>
                               )}
                               {shouldShowMateria && (
-                                <span className="block text-xs text-gray-600">
+                                <span className="block text-sm md:text-xs text-gray-600">
                                   ⚖️ {source.materia}
                                 </span>
                               )}
                             </div>
                           </div>
-                          <div className="flex flex-col items-end space-y-1 ml-2">
+                          <div className="flex flex-row md:flex-col items-start md:items-end space-x-2 md:space-x-0 md:space-y-1 md:ml-2">
                             {source.tipo && (
                               <span className={`px-2 py-1 text-xs rounded ${source.tipo === 'jurisprudencia' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}`}>
                                 {source.tipo.toUpperCase()}
@@ -178,7 +179,7 @@ export default function Sources({ sources }) {
                           href={pdfUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center text-brand-primary-900 underline hover:text-brand-primary-700 text-xs"
+                          className="inline-flex items-center justify-center md:justify-start text-brand-primary-900 underline hover:text-brand-primary-700 text-sm md:text-xs py-2 md:py-0 min-h-[44px] md:min-h-0"
                         >
                           📄 Descargar PDF
                         </a>
