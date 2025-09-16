@@ -22,9 +22,9 @@ export default function MessageList({ messages, setMessageRating }) {
       ref={listContainer}
       className="
         flex-1 space-y-6 overflow-y-auto rounded-xl
-        bg-brand-bg-surface p-4 text-sm leading-6 text-brand-text-primary shadow-sm /* Fondo surface, Texto primary */
+        bg-brand-bg-surface p-4 text-sm leading-5 text-brand-text-primary shadow-sm /* Fondo surface, Texto primary */
         /* Se eliminaron: dark:bg-logo-grey/20 dark:text-logo-white */
-        sm:text-base sm:leading-7
+        sm:text-base sm:leading-6
       "
     >
       <AnimatePresence initial={false}>

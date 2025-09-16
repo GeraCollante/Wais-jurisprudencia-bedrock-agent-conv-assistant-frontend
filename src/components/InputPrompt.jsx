@@ -31,7 +31,7 @@ export default function InputPrompt({ sendMessage, LoaderContext }) {
   };
 
   return (
-    <form className="mt-2" onSubmit={handleSubmit}>
+    <form className="mt-4 font-sans" onSubmit={handleSubmit}>
       <div className="relative">
         <textarea
           id="prompt-input"
@@ -46,7 +46,7 @@ export default function InputPrompt({ sendMessage, LoaderContext }) {
           }
           style={{ fontSize: '16px' }} // Prevent zoom on iOS
           className="
-            block w-full resize-none rounded-xl border
+            block w-full resize-none rounded-xl border font-sans
             bg-brand-primary-200 text-brand-text-primary placeholder-brand-text-primary/60 /* Fondo primary-200, Texto primary, Placeholder primary con opacidad */
             border-brand-primary-900 /* Borde primary-900 */
             p-4 md:p-5 pr-16 md:pr-20 text-base md:text-sm min-h-[44px]
@@ -58,7 +58,7 @@ export default function InputPrompt({ sendMessage, LoaderContext }) {
           type="submit"
           disabled={isLoading}
           className="
-            absolute right-2 md:right-2.5 bottom-2 md:bottom-3 rounded-full
+            absolute right-2 md:right-2.5 bottom-2 md:bottom-3 rounded-full font-sans
             bg-brand-primary-900 px-3 py-2 md:px-4 md:py-2 text-sm font-medium text-brand-text-light /* Fondo primary-900, Texto light */
             hover:bg-brand-primary-900/90 /* Hover sobre primary-900 */
             focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-brand-primary-900/80 /* Anillo de foco primary-900 más claro, con offset */

@@ -96,15 +96,15 @@ export default function MessageBubble({ message, setMessageRating }) {
 
   return (
     <div
-      className={`flex ${isAnswer ? "flex-col md:flex-row" : "flex-col-reverse md:flex-row-reverse"} gap-2 md:gap-2`}
+      className={`flex items-start ${isAnswer ? "flex-row" : "flex-row-reverse"} gap-2`}
       id={`message-${id}`}
     >
       <div className="flex justify-center md:block">
-        <Avatar avatarType={message_type === "question" ? "user" : "bot"} />
+        <Avatar avatarType={message_type === "question" ? "user" : "bot"} size="small" />
       </div>
 
       <div 
-        className={`flex max-w-full md:max-w-prose flex-col gap-3 md:gap-4 ${bubbleContainerBaseClasses} ${bubbleContainerSpecificClasses} sm:max-w-md md:max-w-2xl`}
+        className={`flex max-w-full md:max-w-prose flex-col gap-3 md:gap-4 min-w-0 overflow-hidden ${bubbleContainerBaseClasses} ${bubbleContainerSpecificClasses} sm:max-w-md md:max-w-2xl`}
       >
         {isAnswer ? (
           <>
