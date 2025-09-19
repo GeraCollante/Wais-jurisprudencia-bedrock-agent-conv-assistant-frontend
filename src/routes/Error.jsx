@@ -5,13 +5,13 @@ export default function Error() {
 
   return (
     <main id="error-page">
-      <h3>Oops!</h3>
-      <p>Sorry, an unexpected error has occurred.</p>
+      <h3>¡Ups!</h3>
+      <p>Lo sentimos, ha ocurrido un error inesperado.</p>
       <code>
         <i>{error.statusText || error.message}</i>
       </code>
 
-      <footer>Built with ❤️ by WAIS</footer>
+      <footer>Desarrollado con ❤️ por WAIS</footer>
     </main>
   );
 }
