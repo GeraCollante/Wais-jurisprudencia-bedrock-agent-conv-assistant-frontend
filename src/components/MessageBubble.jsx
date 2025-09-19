@@ -1,7 +1,6 @@
 import MessageActions from "@components/MessageActions";
 import PropTypes from "prop-types";
 import Avatar from "@components/Avatar";
-import Typist from "react-typist-component";
 import Sources from "@components/Sources";
 import ReactMarkdown from "react-markdown";
 import { useState, useEffect } from "react";
@@ -12,8 +11,6 @@ MessageBubble.propTypes = {
   setMessageRating: PropTypes.func.isRequired,
 };
 
-// Constante para controlar la velocidad de escritura en milisegundos
-const TYPING_DELAY = 8;
 
 // Componente personalizado para efecto typing con formateo correcto
 function TypedMarkdown({ text, onComplete, className = "" }) {
@@ -104,7 +101,7 @@ export default function MessageBubble({ message, setMessageRating }) {
       </div>
 
       <div 
-        className={`flex max-w-full md:max-w-prose flex-col gap-3 md:gap-4 min-w-0 overflow-hidden ${bubbleContainerBaseClasses} ${bubbleContainerSpecificClasses} sm:max-w-md md:max-w-2xl`}
+        className={`flex max-w-[95%] md:max-w-[85%] lg:max-w-[80%] xl:max-w-prose flex-col gap-3 md:gap-4 min-w-0 overflow-hidden ${bubbleContainerBaseClasses} ${bubbleContainerSpecificClasses}`}
       >
         {isAnswer ? (
           <>

@@ -148,7 +148,7 @@ export default function Chat({ custom_session_id = null }) {
 
   return (
     <LoaderContext.Provider value={isLoading}>
-      <div className="flex min-h-[0px] flex-1 flex-col max-w-4xl mx-auto px-3 pt-3 pb-6 md:p-2 bg-brand-bg-surface text-brand-text-primary">
+      <div className="flex flex-1 flex-col max-w-4xl md:max-w-6xl lg:max-w-7xl xl:max-w-full mx-auto w-full px-4 pt-4 pb-6 md:px-6 lg:px-8 bg-brand-bg-surface text-brand-text-primary">
         <MessageList messages={messages} setMessageRating={setMessageRating} />
         <InputPrompt sendMessage={sendMessage} LoaderContext={LoaderContext} />
       </div>
