@@ -17,6 +17,8 @@ import { amplifyTranslationsES } from './amplify-translations';
 import Root from "@routes/Root";
 import Chat from "@routes/Chat";
 import Error from "@routes/Error";
+import { SessionProvider } from "./contexts/SessionContext";
+import { WebSocketProvider } from "./contexts/WebSocketContext";
 
 // Configurar Amplify I18n en español
 I18n.putVocabularies({
@@ -31,13 +33,18 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />} errorElement={<Error />}>
       <Route index element={<Chat />} />
+      <Route path="/chat/:sessionId" element={<Chat />} />
     </Route>
   )
 );
 
 const app = (
   <Authenticator hideSignUp={true}>
-    <RouterProvider router={router} />
+    <SessionProvider>
+      <WebSocketProvider>
+        <RouterProvider router={router} />
+      </WebSocketProvider>
+    </SessionProvider>
   </Authenticator>
 );
 

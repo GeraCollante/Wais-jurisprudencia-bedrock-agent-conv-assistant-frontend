@@ -56,7 +56,80 @@ VITE_COGNITO_USER_POOL_CLIENT_ID=24cntc6a7ctm22stjn91hdp8tg
 - ReactMarkdown + Typist compatibility issues
 - Smooth formatting during typing animation
 
+## ⚠️ PENDING: Verificar Fix de Tablas DynamoDB (2025-01-23)
+
+### Problema Identificado:
+- **GetSessionMessages** Lambda estaba leyendo de tabla inexistente: `GenAIChatbotMemory`
+- **InvokeLLM** Lambda guardaba en tabla real: `PoderJudicialBackendStack-RAGWorkflowGenAIChatbotMemory72256F02-I0YXXZLXX1RC`
+- **Resultado**: Mensajes se guardaban pero NO se recuperaban al hacer click en sesión del navbar
+
+### Fix Aplicado (Backend):
+**Archivo**: `/WAIS-jurisprudencia-back-end/infra/stacks/__init__.py` línea 158
+
+**ANTES:**
+```python
+history_table_name = "GenAIChatbotMemory"  # ❌ Hardcoded - tabla NO existe
+```
+
+**DESPUÉS:**
+```python
+history_table_name = self.rag_workflow.history_table.table_name  # ✅ Referencia correcta
+```
+
+**Deploy**: ✅ Completado exitosamente (PoderJudicialBackendStack UPDATE_COMPLETE)
+
+**Variable de entorno actualizada:**
+- Lambda: `PoderJudicialBackendStack-SessionManagementGetSess-hPwi3np7IVOR`
+- Env var: `DYNAMO_DB_HISTORY_TABLE_NAME` = `PoderJudicialBackendStack-RAGWorkflowGenAIChatbotMemory72256F02-I0YXXZLXX1RC`
+
+### TODO: Verificar Fix
+1. ✅ Deploy completado
+2. ⏳ **PENDIENTE**: Usuario debe enviar mensaje nuevo desde frontend
+3. ⏳ **PENDIENTE**: Hacer click en sesión en navbar
+4. ⏳ **PENDIENTE**: Verificar que mensajes se cargan correctamente
+
+**Si funciona**: Los mensajes deben aparecer al hacer click en la sesión.
+**Si NO funciona**: Revisar logs de GetSessionMessages Lambda.
+
+---
+
+## 🚀 **MIGRACIÓN COMPLETADA: WebSocket → Function URL Streaming (2025-11-25)**
+
+### Cambios Realizados:
+
+**Backend**:
+- ✅ Nuevo Lambda: `ChatStreamHandler` con Function URL
+- ✅ Streaming real con `InvokeModelWithResponseStreamCommand` (Bedrock) y OpenAI `stream=True` (Grok)
+- ✅ RAG integrado directamente (no más Lambda separado)
+- ✅ Timeout: 900s (15 minutos) - soporta queries largas de Grok
+
+**Frontend**:
+- ✅ Nuevo hook: `useFunctionURLStream.js`
+- ✅ Chat.jsx actualizado para usar streaming HTTP
+- ✅ Formato NDJSON (newline-delimited JSON)
+- ✅ Streaming en tiempo real como ChatGPT
+
+**Function URL**: `https://vhwqtheewny2kr5etze4xisw6m0fjzla.lambda-url.us-east-1.on.aws/`
+
+### Beneficios:
+- ✅ **No más timeout de 30 segundos** - Grok puede tomar 40-50s sin problemas
+- ✅ **Streaming real** - Usuario ve tokens mientras se generan
+- ✅ **Arquitectura más simple** - 1 Lambda en lugar de 4
+- ✅ **Mejor debugging** - Logs consolidados en un solo lugar
+
+### Testing:
+1. **Reiniciar dev server**: `npm run dev` (para cargar nueva .env.local)
+2. **Hacer login** en la aplicación
+3. **Enviar query**: Tanto Sonnet como Grok deberían funcionar con streaming
+4. **Verificar**: Los tokens aparecen en tiempo real (no todo de golpe)
+
+### Rollback:
+Si hay problemas, WebSocket aún está disponible. Solo hay que revertir Chat.jsx y comentar `VITE_CHAT_STREAM_FUNCTION_URL` en .env.local.
+
+---
+
 ## Next Steps
-- Consider git init + remote setup for auto-deploy workflow
-- Test TypedMarkdown with real jurisprudence responses
-- Validate PDF source links functionality
+- 🔄 **URGENTE**: Testear streaming end-to-end desde frontend
+- Monitorear CloudWatch logs del ChatStreamHandler Lambda
+- Verificar que queries largas de Grok completen exitosamente
+- Si funciona bien por 48 horas, considerar eliminar infraestructura WebSocket

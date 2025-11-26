@@ -1,4 +1,5 @@
 #!/bin/bash
+export AWS_PROFILE="magistrados-wais"
 cd ..
 
 # Nombre del stack

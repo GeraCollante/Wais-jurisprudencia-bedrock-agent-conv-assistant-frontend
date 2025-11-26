@@ -16,9 +16,9 @@ Amplify.configure({
         endpoint: env.VITE_API_GATEWAY_REST_API_ENDPOINT,
         custom_header: async () => {
           return {
-            Authorization: `Bearer ${(await Auth.currentSession())
+            Authorization: (await Auth.currentSession())
               .getIdToken()
-              .getJwtToken()}`,
+              .getJwtToken(),
           };
         },
       },
@@ -43,5 +43,51 @@ export async function postRating(ratingObject) {
     {
       body: ratingObject,
     },
+  );
+}
+
+// Session Management API Functions
+
+export async function listUserSessions() {
+  return await API.get(
+    env.VITE_API_GATEWAY_REST_API_NAME,
+    "/sessions",
+    {}
+  );
+}
+
+export async function createSession(title = "Nueva conversación") {
+  return await API.post(
+    env.VITE_API_GATEWAY_REST_API_NAME,
+    "/sessions",
+    {
+      body: { title },
+    }
+  );
+}
+
+export async function deleteSession(sessionId) {
+  return await API.del(
+    env.VITE_API_GATEWAY_REST_API_NAME,
+    `/sessions/${sessionId}`,
+    {}
+  );
+}
+
+export async function getSessionMessages(sessionId) {
+  return await API.get(
+    env.VITE_API_GATEWAY_REST_API_NAME,
+    `/sessions/${sessionId}/messages`,
+    {}
+  );
+}
+
+export async function updateSessionTitle(sessionId, title) {
+  return await API.patch(
+    env.VITE_API_GATEWAY_REST_API_NAME,
+    `/sessions/${sessionId}`,
+    {
+      body: { title },
+    }
   );
 }

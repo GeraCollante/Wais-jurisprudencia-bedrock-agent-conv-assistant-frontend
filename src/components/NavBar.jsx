@@ -1,6 +1,8 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { IconLogout } from "@tabler/icons-react"; // IconMessageChatbot ya no se usa aquí
+import { IconLogout } from "@tabler/icons-react";
+import { useCallback } from "react";
 import Avatar from "./Avatar";
+import { clearSessionData } from "../services/authService";
 
 // Opcional: Importa las imágenes si no están en `public` y tu bundler lo soporta
 import logoMinisterio from "../assets/logo-horizontal.svg";
@@ -9,6 +11,28 @@ import logoWais from "../assets/wais_jurisprudencia.png";
 
 export default function NavBar() {
   const { signOut } = useAuthenticator((ctx) => [ctx.user]);
+
+  /**
+   * Handle logout with complete cleanup
+   */
+  const handleLogout = useCallback(async () => {
+    console.log('[NavBar] Logging out with cleanup...');
+
+    // Clear all session-related data from storage
+    clearSessionData();
+
+    // Clear any in-memory state by reloading after signout
+    // This ensures no sensitive data remains in React state
+    try {
+      await signOut();
+    } catch (err) {
+      console.error('[NavBar] Sign out error:', err);
+    }
+
+    // Force page reload to clear all React state
+    // This is the safest way to ensure no data leaks between sessions
+    window.location.href = '/';
+  }, [signOut]);
   // const env = import.meta.env; // Ya no se usan directamente estas variables de entorno para los logos aquí
   // const appName = env.VITE_APP_NAME || "IBS Assistant";
   // const appLogoUrl = env.VITE_APP_LOGO_URL;
@@ -38,16 +62,16 @@ export default function NavBar() {
           <div className="flex items-center space-x-4 justify-end">
             <Avatar size="small" avatarType="user" />
             <button
-              onClick={signOut}
+              onClick={handleLogout}
               className="text-brand-text-primary hover:text-brand-primary-900 focus:outline-none focus:ring-2 focus:ring-brand-primary-900"
-              aria-label="Cerrar sesión"
+              aria-label="Cerrar sesion"
             >
               <IconLogout size={20} />
             </button>
           </div>
         </div>
 
-        {/* === VISTA MÓVIL (hasta md) === */}
+        {/* === VISTA MOVIL (hasta md) === */}
         <div className="md:hidden flex items-center justify-between w-full">
           {/* Logo Principal */}
           <img src={logoWais} alt="Logo WAIS" className="h-8" />
@@ -56,9 +80,9 @@ export default function NavBar() {
           <div className="flex items-center space-x-3">
             <Avatar size="small" avatarType="user" />
             <button
-              onClick={signOut}
+              onClick={handleLogout}
               className="text-brand-text-primary hover:text-brand-primary-900"
-              aria-label="Cerrar sesión"
+              aria-label="Cerrar sesion"
             >
               <IconLogout size={20} />
             </button>

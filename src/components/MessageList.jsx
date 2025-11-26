@@ -31,11 +31,12 @@ export default function MessageList({ messages, setMessageRating }) {
         {messages.map((message) => (
           <motion.div
             key={message.id}
-            layout // Añadido layout para mejores animaciones de lista con AnimatePresence
-            onAnimationComplete={scrollContainer} // Cambiado a onAnimationComplete para mejor precisión del scroll
-            initial={{ opacity: 0, y: 50 }} // y: 50 para una animación un poco más sutil
+            // No usar layout - causa sliding cuando el contenido cambia durante streaming
+            onAnimationComplete={scrollContainer}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, x: -20, transition: { duration: 0.15 } }} // Salida hacia la izquierda
+            transition={{ duration: 0.2 }}
+            exit={{ opacity: 0, transition: { duration: 0.1 } }}
           >
             <MessageBubble
               message={message}
