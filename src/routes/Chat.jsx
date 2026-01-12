@@ -308,6 +308,13 @@ export default function Chat() {
       ? currentMessages
       : initialMessages;
 
+    console.log('[Chat] displayMessages computed:', {
+      currentMessagesCount: currentMessages?.length || 0,
+      currentMessagesTypes: currentMessages?.map(m => m.message_type) || [],
+      hasStreamingMessage: !!currentStreamingMessage,
+      baseMessagesCount: baseMessages.length
+    });
+
     // Add streaming message if exists
     if (currentStreamingMessage) {
       return [...baseMessages, currentStreamingMessage];

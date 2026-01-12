@@ -195,7 +195,13 @@ export function SessionProvider({ children }) {
 
   // Add a message to current session (for real-time updates)
   const addMessageToCurrentSession = useCallback((message) => {
-    setCurrentMessages(prevMessages => [...prevMessages, message]);
+    console.log('[SessionContext] addMessageToCurrentSession called with:', message);
+    setCurrentMessages(prevMessages => {
+      console.log('[SessionContext] prevMessages:', prevMessages.length, 'adding:', message.message_type);
+      const newMessages = [...prevMessages, message];
+      console.log('[SessionContext] newMessages total:', newMessages.length);
+      return newMessages;
+    });
 
     // Update session metadata in list
     setSessions(prevSessions =>
