@@ -10,7 +10,7 @@ InputPrompt.propTypes = {
   LoaderContext: PropTypes.object.isRequired,
   selectedModel: PropTypes.string.isRequired,
   onModelChange: PropTypes.func.isRequired,
-  searchMode: PropTypes.oneOf(['semantic', 'hybrid']).isRequired,
+  searchMode: PropTypes.oneOf(['semantic', 'bm25']).isRequired,
   onSearchModeChange: PropTypes.func.isRequired,
 };
 

@@ -1,39 +1,39 @@
 import PropTypes from "prop-types";
 
 export default function SearchModeToggle({ searchMode, onSearchModeChange, disabled = false }) {
-  const isHybrid = searchMode === "hybrid";
+  const isBM25 = searchMode === "bm25";
 
   return (
     <button
       type="button"
       disabled={disabled}
-      onClick={() => onSearchModeChange(isHybrid ? "semantic" : "hybrid")}
+      onClick={() => onSearchModeChange(isBM25 ? "semantic" : "bm25")}
       className={`
         relative inline-flex items-center rounded-full
         transition-all duration-300 ease-in-out
-        ${isHybrid ? 'bg-emerald-600' : 'bg-blue-600'}
+        ${isBM25 ? 'bg-amber-600' : 'bg-blue-600'}
         ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-90'}
         focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-opacity-50
-        ${isHybrid ? 'focus:ring-emerald-600' : 'focus:ring-blue-600'}
+        ${isBM25 ? 'focus:ring-amber-600' : 'focus:ring-blue-600'}
         h-9 w-40 md:h-8 md:w-36
       `}
-      aria-label={`Cambiar a ${isHybrid ? 'Semántico' : 'Híbrido'}`}
-      title={isHybrid ? "Híbrido: BM25 + Semántico" : "Solo Semántico (embeddings)"}
+      aria-label={`Cambiar a ${isBM25 ? 'Semántico' : 'BM25'}`}
+      title={isBM25 ? "BM25: Búsqueda por keywords exactos" : "Semántico: Búsqueda por significado"}
     >
       {/* Label Izquierda (Semántico) */}
       <span className={`
         absolute left-0 w-1/2 text-center text-xs font-medium transition-colors duration-300 z-10
-        ${!isHybrid ? 'text-blue-900' : 'text-white'}
+        ${!isBM25 ? 'text-blue-900' : 'text-white'}
       `}>
         Semántico
       </span>
 
-      {/* Label Derecha (Híbrido) */}
+      {/* Label Derecha (BM25) */}
       <span className={`
         absolute right-0 w-1/2 text-center text-xs font-medium transition-colors duration-300 z-10
-        ${isHybrid ? 'text-emerald-900' : 'text-white'}
+        ${isBM25 ? 'text-amber-900' : 'text-white'}
       `}>
-        Híbrido
+        BM25
       </span>
 
       {/* Sliding indicator */}
@@ -43,7 +43,7 @@ export default function SearchModeToggle({ searchMode, onSearchModeChange, disab
           bg-white rounded-full shadow-md
           transition-transform duration-300 ease-in-out
           z-0
-          ${isHybrid ? 'translate-x-[5.5rem] md:translate-x-[4.5rem]' : 'translate-x-1'}
+          ${isBM25 ? 'translate-x-[5.5rem] md:translate-x-[4.5rem]' : 'translate-x-1'}
         `}
         aria-hidden="true"
       />
@@ -52,7 +52,7 @@ export default function SearchModeToggle({ searchMode, onSearchModeChange, disab
 }
 
 SearchModeToggle.propTypes = {
-  searchMode: PropTypes.oneOf(['semantic', 'hybrid']).isRequired,
+  searchMode: PropTypes.oneOf(['semantic', 'bm25']).isRequired,
   onSearchModeChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
 };
