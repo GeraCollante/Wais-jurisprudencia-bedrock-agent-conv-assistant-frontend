@@ -45,7 +45,7 @@ export const useFunctionURLBuffered = ({ onMessage, onError, onSessionExpired })
   /**
    * Send a query to the Lambda Function URL and process buffered response
    */
-  const sendQuery = useCallback(async ({ query, session_id, model = 'sonnet' }) => {
+  const sendQuery = useCallback(async ({ query, session_id, model = 'sonnet', search_mode = 'semantic' }) => {
     if (!FUNCTION_URL) {
       console.error('VITE_CHAT_STREAM_FUNCTION_URL not configured');
       onError?.('Function URL not configured');
@@ -63,10 +63,11 @@ export const useFunctionURLBuffered = ({ onMessage, onError, onSessionExpired })
       const requestBody = {
         query,
         session_id,
-        model
+        model,
+        search_mode  // "semantic" o "hybrid"
       };
 
-      console.log('Sending query to Function URL (buffered mode):', { query, session_id, model });
+      console.log('Sending query to Function URL (buffered mode):', { query, session_id, model, search_mode });
 
       // Use centralized auth service for the request
       // This handles token refresh and 401/403 automatically

@@ -39,6 +39,7 @@ export default function Chat() {
   const [isLoadingHistory, setIsLoadingHistory] = useState(false);
   const [toast, setToast] = useState({ message: null, type: 'info' });
   const [selectedModel, setSelectedModel] = useState("sonnet");
+  const [searchMode, setSearchMode] = useState("semantic");  // "semantic" o "hybrid"
   const [currentStreamingMessage, setCurrentStreamingMessage] = useState(null);
   const [streamingSources, setStreamingSources] = useState(null);
 
@@ -268,14 +269,16 @@ export default function Chat() {
     console.log("[Chat] Sending query:", {
       query: message.content,
       session_id: currentSessionId,
-      model: selectedModel
+      model: selectedModel,
+      search_mode: searchMode
     });
 
     // Send via Function URL
     const success = await stream.sendQuery({
       query: message.content,
       session_id: currentSessionId,
-      model: selectedModel
+      model: selectedModel,
+      search_mode: searchMode
     });
 
     if (!success) {
@@ -286,7 +289,7 @@ export default function Chat() {
       });
       setIsLoading(false);
     }
-  }, [currentSessionId, currentMessages, addMessageToCurrentSession, updateSessionTitle, selectedModel, stream]);
+  }, [currentSessionId, currentMessages, addMessageToCurrentSession, updateSessionTitle, selectedModel, searchMode, stream]);
 
   // Rating handler
   const setMessageRating = useCallback((messageData, newRating) => {
@@ -358,6 +361,8 @@ export default function Chat() {
             LoaderContext={LoaderContext}
             selectedModel={selectedModel}
             onModelChange={setSelectedModel}
+            searchMode={searchMode}
+            onSearchModeChange={setSearchMode}
           />
         </div>
       </div>

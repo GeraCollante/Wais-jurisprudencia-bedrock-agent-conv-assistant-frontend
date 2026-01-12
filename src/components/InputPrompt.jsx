@@ -3,15 +3,18 @@ import PropTypes from "prop-types";
 // nanoid removed - using Timestamp_tipo format for IDs
 import { useTranslation } from "react-i18next";
 import ModelSwitcher from "./ModelSwitcher";
+import SearchModeToggle from "./SearchModeToggle";
 
 InputPrompt.propTypes = {
   sendMessage: PropTypes.func.isRequired,
   LoaderContext: PropTypes.object.isRequired,
   selectedModel: PropTypes.string.isRequired,
   onModelChange: PropTypes.func.isRequired,
+  searchMode: PropTypes.oneOf(['semantic', 'hybrid']).isRequired,
+  onSearchModeChange: PropTypes.func.isRequired,
 };
 
-export default function InputPrompt({ sendMessage, LoaderContext, selectedModel, onModelChange }) {
+export default function InputPrompt({ sendMessage, LoaderContext, selectedModel, onModelChange, searchMode, onSearchModeChange }) {
   const { t } = useTranslation();
   const [prompt, setPrompt] = useState("");
   const promptInput = useRef(null);
@@ -59,8 +62,13 @@ export default function InputPrompt({ sendMessage, LoaderContext, selectedModel,
             disabled:bg-brand-primary-200/70 disabled:text-brand-text-primary/70 disabled:border-brand-primary-900/70 /* Estado deshabilitado */
           "
         />
-        {/* Container for ModelSwitcher + Send Button */}
+        {/* Container for SearchModeToggle + ModelSwitcher + Send Button */}
         <div className="absolute right-2 md:right-2.5 bottom-2 md:bottom-3 flex items-center gap-2">
+          <SearchModeToggle
+            searchMode={searchMode}
+            onSearchModeChange={onSearchModeChange}
+            disabled={isLoading}
+          />
           <ModelSwitcher
             selectedModel={selectedModel}
             onModelChange={onModelChange}
