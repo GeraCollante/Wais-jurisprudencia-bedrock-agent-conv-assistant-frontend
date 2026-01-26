@@ -38,8 +38,6 @@ export default function Chat() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingHistory, setIsLoadingHistory] = useState(false);
   const [toast, setToast] = useState({ message: null, type: 'info' });
-  const [selectedModel, setSelectedModel] = useState("sonnet");
-  const [searchMode, setSearchMode] = useState("semantic");  // "semantic" o "hybrid"
   const [currentStreamingMessage, setCurrentStreamingMessage] = useState(null);
   const [streamingSources, setStreamingSources] = useState(null);
 
@@ -268,17 +266,13 @@ export default function Chat() {
 
     console.log("[Chat] Sending query:", {
       query: message.content,
-      session_id: currentSessionId,
-      model: selectedModel,
-      search_mode: searchMode
+      session_id: currentSessionId
     });
 
-    // Send via Function URL
+    // Send via Function URL (MCP Agent)
     const success = await stream.sendQuery({
       query: message.content,
-      session_id: currentSessionId,
-      model: selectedModel,
-      search_mode: searchMode
+      session_id: currentSessionId
     });
 
     if (!success) {
@@ -289,7 +283,7 @@ export default function Chat() {
       });
       setIsLoading(false);
     }
-  }, [currentSessionId, currentMessages, addMessageToCurrentSession, updateSessionTitle, selectedModel, searchMode, stream]);
+  }, [currentSessionId, currentMessages, addMessageToCurrentSession, updateSessionTitle, stream]);
 
   // Rating handler
   const setMessageRating = useCallback((messageData, newRating) => {
@@ -359,10 +353,6 @@ export default function Chat() {
           <InputPrompt
             sendMessage={sendMessage}
             LoaderContext={LoaderContext}
-            selectedModel={selectedModel}
-            onModelChange={setSelectedModel}
-            searchMode={searchMode}
-            onSearchModeChange={setSearchMode}
           />
         </div>
       </div>

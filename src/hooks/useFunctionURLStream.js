@@ -48,7 +48,7 @@ export const useFunctionURLStream = ({ onMessage, onError, onSessionExpired }) =
   /**
    * Send a query to the Lambda Function URL and process streaming response
    */
-  const sendQuery = useCallback(async ({ query, session_id, model = 'sonnet' }) => {
+  const sendQuery = useCallback(async ({ query, session_id }) => {
     if (!FUNCTION_URL) {
       console.error('VITE_CHAT_STREAM_FUNCTION_URL not configured');
       onError?.('Function URL not configured');
@@ -70,11 +70,10 @@ export const useFunctionURLStream = ({ onMessage, onError, onSessionExpired }) =
         // Prepare request
         const requestBody = {
           query,
-          session_id,
-          model
+          session_id
         };
 
-        console.log('Sending query to Function URL:', { query, session_id, model, isRetry });
+        console.log('Sending query to Function URL:', { query, session_id, isRetry });
 
         // Fetch with streaming
         const response = await fetch(FUNCTION_URL, {

@@ -1,60 +1,64 @@
 import { motion } from 'framer-motion';
+import Avatar from "@components/Avatar";
 
 const MessageSkeleton = () => {
   return (
-    <div className="flex gap-4 mb-6">
-      {/* Avatar skeleton */}
-      <div className="flex-shrink-0">
-        <div className="w-10 h-10 rounded-full bg-gray-200 animate-pulse" />
+    <div className="flex items-start gap-2 mb-4">
+      {/* Avatar */}
+      <div className="flex justify-center md:block">
+        <Avatar avatarType="bot" size="small" />
       </div>
 
-      {/* Message content skeleton */}
-      <div className="flex-1 space-y-3">
-        {/* Header */}
-        <div className="flex items-center gap-2">
-          <div className="h-4 bg-gray-200 rounded w-24 animate-pulse" />
-          <div className="h-3 bg-gray-100 rounded w-16 animate-pulse" />
-        </div>
-
-        {/* Message lines */}
-        <div className="space-y-2">
+      {/* Skeleton bubble */}
+      <div className="rounded-b-xl rounded-tr-xl bg-brand-primary-200 border border-brand-primary-900 p-4 max-w-[85%] md:max-w-[70%]">
+        {/* Animated lines */}
+        <div className="space-y-3">
           <motion.div
-            className="h-4 bg-gray-200 rounded w-full"
-            animate={{ opacity: [0.5, 1, 0.5] }}
+            className="h-3 bg-brand-primary-400/40 rounded-full w-64"
+            animate={{ opacity: [0.3, 0.6, 0.3] }}
             transition={{ duration: 1.5, repeat: Infinity }}
           />
           <motion.div
-            className="h-4 bg-gray-200 rounded w-5/6"
-            animate={{ opacity: [0.5, 1, 0.5] }}
+            className="h-3 bg-brand-primary-400/40 rounded-full w-48"
+            animate={{ opacity: [0.3, 0.6, 0.3] }}
             transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
           />
           <motion.div
-            className="h-4 bg-gray-200 rounded w-4/6"
-            animate={{ opacity: [0.5, 1, 0.5] }}
+            className="h-3 bg-brand-primary-400/40 rounded-full w-56"
+            animate={{ opacity: [0.3, 0.6, 0.3] }}
             transition={{ duration: 1.5, repeat: Infinity, delay: 0.4 }}
           />
         </div>
 
-        {/* Typing indicator */}
-        <div className="flex items-center gap-2 mt-4">
+        {/* Loading indicator */}
+        <div className="flex items-center gap-3 mt-4 pt-3 border-t border-brand-primary-400/30">
+          {/* Animated dots */}
           <div className="flex gap-1">
             <motion.div
-              className="w-2 h-2 rounded-full bg-gray-400"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 0.6, repeat: Infinity }}
+              className="w-2 h-2 rounded-full bg-brand-primary-900"
+              animate={{ scale: [1, 1.3, 1], opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 0.8, repeat: Infinity }}
             />
             <motion.div
-              className="w-2 h-2 rounded-full bg-gray-400"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 0.6, repeat: Infinity, delay: 0.1 }}
+              className="w-2 h-2 rounded-full bg-brand-primary-900"
+              animate={{ scale: [1, 1.3, 1], opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 0.8, repeat: Infinity, delay: 0.15 }}
             />
             <motion.div
-              className="w-2 h-2 rounded-full bg-gray-400"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
+              className="w-2 h-2 rounded-full bg-brand-primary-900"
+              animate={{ scale: [1, 1.3, 1], opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 0.8, repeat: Infinity, delay: 0.3 }}
             />
           </div>
-          <span className="text-sm text-gray-500">Buscando jurisprudencia...</span>
+
+          {/* Rotating messages */}
+          <motion.span
+            className="text-sm text-brand-primary-900/70 font-medium"
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            Analizando tu consulta...
+          </motion.span>
         </div>
       </div>
     </div>
