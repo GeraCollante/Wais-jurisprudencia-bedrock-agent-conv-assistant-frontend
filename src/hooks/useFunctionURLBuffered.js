@@ -13,7 +13,6 @@
  */
 
 import { useState, useCallback, useRef } from 'react';
-import { authenticatedFetch, onSessionEvent } from '../services/authService';
 
 const FUNCTION_URL = import.meta.env.VITE_CHAT_STREAM_FUNCTION_URL;
 
@@ -45,7 +44,7 @@ export const useFunctionURLBuffered = ({ onMessage, onError, onSessionExpired })
   /**
    * Send a query to the Lambda Function URL and process buffered response
    */
-  const sendQuery = useCallback(async ({ query, session_id, model = 'sonnet', search_mode = 'semantic' }) => {
+  const sendQuery = useCallback(async ({ query, session_id }) => {
     if (!FUNCTION_URL) {
       console.error('VITE_CHAT_STREAM_FUNCTION_URL not configured');
       onError?.('Function URL not configured');
@@ -62,25 +61,19 @@ export const useFunctionURLBuffered = ({ onMessage, onError, onSessionExpired })
       // Prepare request
       const requestBody = {
         query,
-        session_id,
-        model,
-        search_mode  // "semantic" o "hybrid"
+        session_id
       };
 
-      console.log('Sending query to Function URL (buffered mode):', { query, session_id, model, search_mode });
+      console.log('Sending query to Function URL (MCP Agent):', { query, session_id });
 
-      // Use centralized auth service for the request
-      // This handles token refresh and 401/403 automatically
-      const response = await authenticatedFetch(FUNCTION_URL, {
+      // Direct fetch to Function URL (no auth required - public endpoint)
+      const response = await fetch(FUNCTION_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(requestBody),
         signal: abortControllerRef.current.signal
-      }, {
-        maxRetries: 1,
-        useIdToken: false, // Use access token for Lambda Function URL
       });
 
       // Handle non-OK responses that aren't auth errors (already handled by authenticatedFetch)

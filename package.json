@@ -26,7 +26,8 @@
     "react-i18next": "^13.3.1",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^6.15.0",
-    "react-typist-component": "^1.0.5"
+    "react-typist-component": "^1.0.5",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
