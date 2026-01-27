@@ -1,7 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSession } from '../contexts/SessionContext';
-import { MessageSquarePlus, Trash2, MessageSquare, ChevronLeft, ChevronRight, Loader2, AlertCircle, RefreshCw } from 'lucide-react';
+import { MessageSquarePlus, Trash2, MessageSquare, ChevronLeft, ChevronRight, Loader2, AlertCircle, RefreshCw, Menu, X } from 'lucide-react';
 
 export default function SessionSidebar() {
   const navigate = useNavigate();
@@ -17,8 +17,14 @@ export default function SessionSidebar() {
   } = useSession();
 
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
+
+  // Close mobile sidebar when navigating to a session
+  useEffect(() => {
+    setIsMobileOpen(false);
+  }, [urlSessionId]);
 
   const handleNewSession = useCallback(async () => {
     if (isCreating || loading) return;
@@ -99,29 +105,63 @@ export default function SessionSidebar() {
 
   const groupOrder = ['Hoy', 'Ayer', 'Últimos 7 días', 'Últimos 30 días', 'Más antiguo'];
 
+  // Mobile menu button (shown only on mobile)
+  const MobileMenuButton = () => (
+    <button
+      onClick={() => setIsMobileOpen(!isMobileOpen)}
+      className="lg:hidden fixed top-16 left-2 z-50 p-2 bg-gray-900 text-white rounded-lg shadow-lg hover:bg-gray-800 transition-colors"
+      aria-label="Toggle menu"
+    >
+      {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
+    </button>
+  );
+
+  // Collapsed view (desktop only)
   if (isCollapsed) {
     return (
-      <div className="w-12 bg-gray-900 text-white flex flex-col items-center py-4 border-r border-gray-700">
-        <button
-          onClick={() => setIsCollapsed(false)}
-          className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
-          title="Expandir sidebar"
-        >
-          <ChevronRight size={20} />
-        </button>
-        <button
-          onClick={handleNewSession}
-          className="p-2 hover:bg-gray-800 rounded-lg transition-colors mt-4"
-          title="Nueva conversación"
-        >
-          <MessageSquarePlus size={20} />
-        </button>
-      </div>
+      <>
+        <MobileMenuButton />
+        <div className="hidden lg:flex w-12 bg-gray-900 text-white flex-col items-center py-4 border-r border-gray-700">
+          <button
+            onClick={() => setIsCollapsed(false)}
+            className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
+            title="Expandir sidebar"
+          >
+            <ChevronRight size={20} />
+          </button>
+          <button
+            onClick={handleNewSession}
+            className="p-2 hover:bg-gray-800 rounded-lg transition-colors mt-4"
+            title="Nueva conversación"
+          >
+            <MessageSquarePlus size={20} />
+          </button>
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="w-72 bg-gray-900 text-white flex flex-col border-r border-gray-700">
+    <>
+      <MobileMenuButton />
+
+      {/* Overlay for mobile */}
+      {isMobileOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black/50 z-40"
+          onClick={() => setIsMobileOpen(false)}
+        />
+      )}
+
+      <div className={`
+        ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}
+        lg:translate-x-0
+        fixed lg:relative
+        inset-y-0 left-0
+        w-72 bg-gray-900 text-white flex flex-col border-r border-gray-700
+        z-40 lg:z-auto
+        transition-transform duration-300 ease-in-out
+      `}>
       {/* Header */}
       <div className="p-4 border-b border-gray-700 flex items-center justify-between">
         <h2 className="text-lg font-semibold">Conversaciones</h2>
@@ -240,5 +280,6 @@ export default function SessionSidebar() {
         )}
       </div>
     </div>
+    </>
   );
 }
