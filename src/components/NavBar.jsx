@@ -1,6 +1,7 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { IconLogout } from "@tabler/icons-react";
+import { IconLogout, IconMenu2 } from "@tabler/icons-react";
 import { useCallback } from "react";
+import PropTypes from "prop-types";
 import Avatar from "./Avatar";
 import { clearSessionData } from "../services/authService";
 
@@ -9,7 +10,12 @@ import logoMinisterio from "../assets/logo-horizontal.svg";
 import logoFAM from "../assets/fam.png";
 import logoWais from "../assets/wais_jurisprudencia.png";
 
-export default function NavBar() {
+NavBar.propTypes = {
+  onMenuToggle: PropTypes.func,
+  isMobileMenuOpen: PropTypes.bool,
+};
+
+export default function NavBar({ onMenuToggle, isMobileMenuOpen }) {
   const { signOut } = useAuthenticator((ctx) => [ctx.user]);
 
   /**
@@ -42,8 +48,8 @@ export default function NavBar() {
     <nav className="relative bg-brand-bg-surface text-brand-text-primary py-4 shadow-md mb-1">
       <div className="max-w-4xl md:max-w-6xl lg:max-w-7xl xl:max-w-full mx-auto w-full px-4 md:px-6 lg:px-8">
         
-        {/* === VISTA DE ESCRITORIO (md en adelante) === */}
-        <div className="hidden md:grid md:grid-cols-3 items-center w-full">
+        {/* === VISTA DE ESCRITORIO (lg en adelante) === */}
+        <div className="hidden lg:grid lg:grid-cols-3 items-center w-full">
           {/* Columna Izquierda: Logos Institucionales */}
           <div className="flex items-center space-x-4 justify-start">
             <img src={logoMinisterio} alt="Logo Ministerio de Justicia" className="h-16" />
@@ -71,13 +77,26 @@ export default function NavBar() {
           </div>
         </div>
 
-        {/* === VISTA MOVIL (hasta md) === */}
-        <div className="md:hidden flex items-center justify-between w-full">
-          {/* Logo Principal */}
-          <img src={logoWais} alt="Logo WAIS" className="h-8" />
+        {/* === VISTA MOVIL (hasta lg) === */}
+        <div className="lg:hidden grid grid-cols-3 items-center w-full">
+          {/* Izquierda: Botón hamburguesa */}
+          <div className="flex items-center justify-start">
+            <button
+              onClick={onMenuToggle}
+              className="p-2 text-brand-primary-900 hover:bg-brand-primary-100 rounded-lg transition-colors"
+              aria-label="Toggle menu"
+            >
+              <IconMenu2 size={24} />
+            </button>
+          </div>
 
-          {/* Controles de Usuario */}
-          <div className="flex items-center space-x-3">
+          {/* Centro: Logo */}
+          <div className="flex items-center justify-center">
+            <img src={logoWais} alt="Logo WAIS" className="h-8" />
+          </div>
+
+          {/* Derecha: Controles de Usuario */}
+          <div className="flex items-center space-x-3 justify-end">
             <Avatar size="small" avatarType="user" />
             <button
               onClick={handleLogout}

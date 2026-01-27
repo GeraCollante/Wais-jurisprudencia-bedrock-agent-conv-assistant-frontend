@@ -1,9 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { useSession } from '../contexts/SessionContext';
-import { MessageSquarePlus, Trash2, MessageSquare, ChevronLeft, ChevronRight, Loader2, AlertCircle, RefreshCw, Menu, X } from 'lucide-react';
+import { MessageSquarePlus, Trash2, MessageSquare, ChevronLeft, ChevronRight, Loader2, AlertCircle, RefreshCw } from 'lucide-react';
 
-export default function SessionSidebar() {
+SessionSidebar.propTypes = {
+  isMobileOpen: PropTypes.bool,
+  setIsMobileOpen: PropTypes.func,
+};
+
+export default function SessionSidebar({ isMobileOpen = false, setIsMobileOpen = () => {} }) {
   const navigate = useNavigate();
   const { sessionId: urlSessionId } = useParams();
   const {
@@ -17,14 +23,13 @@ export default function SessionSidebar() {
   } = useSession();
 
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
 
   // Close mobile sidebar when navigating to a session
   useEffect(() => {
     setIsMobileOpen(false);
-  }, [urlSessionId]);
+  }, [urlSessionId, setIsMobileOpen]);
 
   const handleNewSession = useCallback(async () => {
     if (isCreating || loading) return;
@@ -105,46 +110,30 @@ export default function SessionSidebar() {
 
   const groupOrder = ['Hoy', 'Ayer', 'Últimos 7 días', 'Últimos 30 días', 'Más antiguo'];
 
-  // Mobile menu button (shown only on mobile)
-  const MobileMenuButton = () => (
-    <button
-      onClick={() => setIsMobileOpen(!isMobileOpen)}
-      className="lg:hidden fixed top-16 left-2 z-50 p-2 bg-gray-900 text-white rounded-lg shadow-lg hover:bg-gray-800 transition-colors"
-      aria-label="Toggle menu"
-    >
-      {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
-    </button>
-  );
-
   // Collapsed view (desktop only)
   if (isCollapsed) {
     return (
-      <>
-        <MobileMenuButton />
-        <div className="hidden lg:flex w-12 bg-gray-900 text-white flex-col items-center py-4 border-r border-gray-700">
-          <button
-            onClick={() => setIsCollapsed(false)}
-            className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
-            title="Expandir sidebar"
-          >
-            <ChevronRight size={20} />
-          </button>
-          <button
-            onClick={handleNewSession}
-            className="p-2 hover:bg-gray-800 rounded-lg transition-colors mt-4"
-            title="Nueva conversación"
-          >
-            <MessageSquarePlus size={20} />
-          </button>
-        </div>
-      </>
+      <div className="hidden lg:flex w-12 bg-brand-primary-900 text-white flex-col items-center py-4 border-r border-brand-primary-800">
+        <button
+          onClick={() => setIsCollapsed(false)}
+          className="p-2 hover:bg-brand-primary-800 rounded-lg transition-colors"
+          title="Expandir sidebar"
+        >
+          <ChevronRight size={20} />
+        </button>
+        <button
+          onClick={handleNewSession}
+          className="p-2 hover:bg-brand-primary-800 rounded-lg transition-colors mt-4"
+          title="Nueva conversación"
+        >
+          <MessageSquarePlus size={20} />
+        </button>
+      </div>
     );
   }
 
   return (
     <>
-      <MobileMenuButton />
-
       {/* Overlay for mobile */}
       {isMobileOpen && (
         <div
@@ -158,16 +147,16 @@ export default function SessionSidebar() {
         lg:translate-x-0
         fixed lg:relative
         inset-y-0 left-0
-        w-72 bg-gray-900 text-white flex flex-col border-r border-gray-700
+        w-72 bg-brand-primary-900 text-white flex flex-col border-r border-brand-primary-800
         z-40 lg:z-auto
         transition-transform duration-300 ease-in-out
       `}>
       {/* Header */}
-      <div className="p-4 border-b border-gray-700 flex items-center justify-between">
+      <div className="p-4 border-b border-brand-primary-800 flex items-center justify-between">
         <h2 className="text-lg font-semibold">Conversaciones</h2>
         <button
           onClick={() => setIsCollapsed(true)}
-          className="p-1 hover:bg-gray-800 rounded transition-colors"
+          className="hidden lg:block p-1 hover:bg-brand-primary-800 rounded transition-colors"
           title="Colapsar sidebar"
         >
           <ChevronLeft size={20} />
@@ -179,7 +168,7 @@ export default function SessionSidebar() {
         <button
           onClick={handleNewSession}
           disabled={loading || isCreating}
-          className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-brand-primary-800 hover:bg-brand-primary-700 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isCreating ? (
             <>
@@ -201,23 +190,23 @@ export default function SessionSidebar() {
         {error && sessions.length === 0 ? (
           <div className="text-center py-8">
             <AlertCircle className="mx-auto mb-2 text-red-400" size={24} />
-            <p className="text-gray-400 text-sm mb-3">{error}</p>
+            <p className="text-brand-primary-200 text-sm mb-3">{error}</p>
             <button
               onClick={handleRetryLoad}
               disabled={loading}
-              className="flex items-center gap-2 mx-auto px-3 py-1.5 bg-gray-800 hover:bg-gray-700 rounded text-sm disabled:opacity-50"
+              className="flex items-center gap-2 mx-auto px-3 py-1.5 bg-brand-primary-800 hover:bg-brand-primary-700 rounded text-sm disabled:opacity-50"
             >
               <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
               Reintentar
             </button>
           </div>
         ) : loading && sessions.length === 0 ? (
-          <div className="text-gray-400 text-center py-8 flex flex-col items-center">
+          <div className="text-brand-primary-200 text-center py-8 flex flex-col items-center">
             <Loader2 className="animate-spin mb-2" size={24} />
             Cargando conversaciones...
           </div>
         ) : nonEmptySessions.length === 0 ? (
-          <div className="text-gray-400 text-center py-8">
+          <div className="text-brand-primary-200 text-center py-8">
             No hay conversaciones aun.
             <br />
             <span className="text-sm">Envia un mensaje para comenzar</span>
@@ -229,7 +218,7 @@ export default function SessionSidebar() {
 
             return (
               <div key={groupKey} className="mb-4">
-                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-2">
+                <h3 className="text-xs font-semibold text-brand-primary-200 uppercase tracking-wider mb-2 px-2">
                   {groupKey}
                 </h3>
                 <div className="space-y-1">
@@ -245,7 +234,7 @@ export default function SessionSidebar() {
                         onClick={() => !isDisabled && handleSwitchSession(session.SessionId)}
                         className={`
                           group relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors
-                          ${isActive ? 'bg-gray-800 text-white' : 'hover:bg-gray-800 text-gray-300'}
+                          ${isActive ? 'bg-brand-primary-800 text-white' : 'hover:bg-brand-primary-800 text-brand-primary-100'}
                           ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
                         `}
                       >
@@ -258,14 +247,14 @@ export default function SessionSidebar() {
                             {session.Title || 'Nueva conversación'}
                           </p>
                           {session.MessageCount > 0 && (
-                            <p className="text-xs text-gray-500">
+                            <p className="text-xs text-brand-primary-300">
                               {session.MessageCount} mensajes
                             </p>
                           )}
                         </div>
                         <button
                           onClick={(e) => handleDeleteSession(session.SessionId, e)}
-                          className="flex-shrink-0 p-1.5 opacity-0 group-hover:opacity-100 hover:bg-gray-700 rounded transition-all"
+                          className="flex-shrink-0 p-1.5 opacity-0 group-hover:opacity-100 hover:bg-brand-primary-700 rounded transition-all"
                           title="Eliminar conversación"
                         >
                           <Trash2 size={14} className="text-red-400" />
