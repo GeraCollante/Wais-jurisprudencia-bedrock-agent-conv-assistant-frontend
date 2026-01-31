@@ -4,6 +4,7 @@ import Avatar from "@components/Avatar";
 import Sources from "@components/Sources";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { messageBubble, table as tableTheme } from '../theme';
 
 // Toggle para mostrar/ocultar fuentes en las respuestas
 const SHOW_SOURCES = false;  // Cambiar a true para mostrar fuentes
@@ -49,17 +50,17 @@ export default function MessageBubble({ message, setMessageRating }) {
           blockquote: ({ children }) => <blockquote className="border-l-4 border-gray-400 pl-3 italic my-2">{children}</blockquote>,
           // Tablas
           table: ({ children }) => (
-            <div className="overflow-x-auto my-3 rounded-lg shadow-sm">
+            <div className={`overflow-x-auto my-3 ${tableTheme.wrapper}`}>
               <table className="min-w-full text-sm">
                 {children}
               </table>
             </div>
           ),
-          thead: ({ children }) => <thead className="bg-brand-primary-900 text-white">{children}</thead>,
-          tbody: ({ children }) => <tbody className="bg-white">{children}</tbody>,
-          tr: ({ children }) => <tr className="border-b border-brand-primary-100 even:bg-brand-primary-50">{children}</tr>,
-          th: ({ children }) => <th className="px-4 py-3 text-left font-semibold">{children}</th>,
-          td: ({ children }) => <td className="px-4 py-3 text-brand-text-primary">{children}</td>,
+          thead: ({ children }) => <thead className={tableTheme.header}>{children}</thead>,
+          tbody: ({ children }) => <tbody className={tableTheme.body}>{children}</tbody>,
+          tr: ({ children }) => <tr className={tableTheme.row}>{children}</tr>,
+          th: ({ children }) => <th className={tableTheme.headerCell}>{children}</th>,
+          td: ({ children }) => <td className={`${tableTheme.cell} text-brand-text-primary`}>{children}</td>,
         }}
       >
         {text}
@@ -69,11 +70,8 @@ export default function MessageBubble({ message, setMessageRating }) {
 
   // Clases para el contenedor de la burbuja
   const isAnswer = message_type === "answer";
-  const bubbleContainerBaseClasses = "rounded-b-xl p-3 md:p-4 text-brand-text-primary";
-
-  const bubbleContainerSpecificClasses = isAnswer
-    ? "rounded-tr-xl bg-brand-primary-200 border border-brand-primary-900"
-    : "rounded-tl-xl bg-brand-secondary-100 border border-brand-secondary-400";
+  const bubbleTheme = isAnswer ? messageBubble.answer : messageBubble.question;
+  const bubbleContainerClasses = `${bubbleTheme.rounded} ${bubbleTheme.bg} border ${bubbleTheme.border} p-3 md:p-4 text-brand-text-primary`;
 
   return (
     <div
@@ -85,7 +83,7 @@ export default function MessageBubble({ message, setMessageRating }) {
       </div>
 
       <div
-        className={`flex max-w-[95%] md:max-w-[85%] lg:max-w-[80%] xl:max-w-prose flex-col gap-2 min-w-0 overflow-hidden ${bubbleContainerBaseClasses} ${bubbleContainerSpecificClasses}`}
+        className={`flex max-w-[95%] md:max-w-[85%] lg:max-w-[80%] xl:max-w-prose flex-col gap-2 min-w-0 overflow-hidden ${bubbleContainerClasses}`}
       >
         {isAnswer ? (
           <>

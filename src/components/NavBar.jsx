@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import PropTypes from "prop-types";
 import Avatar from "./Avatar";
 import { clearSessionData } from "../services/authService";
+import { navbar as theme } from '../theme';
 
 // Opcional: Importa las imágenes si no están en `public` y tu bundler lo soporta
 import logoMinisterio from "../assets/logo-horizontal.svg";
@@ -45,15 +46,13 @@ export default function NavBar({ onMenuToggle, isMobileMenuOpen }) {
 
   return (
     <>
-    <nav className="relative bg-brand-bg-surface text-brand-text-primary py-4 shadow-md mb-1">
+    <nav className={`relative ${theme.bg} ${theme.text} py-4 shadow-md mb-1`}>
       <div className="max-w-4xl md:max-w-6xl lg:max-w-7xl xl:max-w-full mx-auto w-full px-4 md:px-6 lg:px-8">
         
         {/* === VISTA DE ESCRITORIO (lg en adelante) === */}
         <div className="hidden lg:grid lg:grid-cols-3 items-center w-full">
-          {/* Columna Izquierda: Logos Institucionales */}
+          {/* Columna Izquierda: (logos institucionales ocultos por ahora) */}
           <div className="flex items-center space-x-4 justify-start">
-            <img src={logoMinisterio} alt="Logo Ministerio de Justicia" className="h-16" />
-            <img src={logoFAM} alt="Logo FAM" className="h-20" />
           </div>
 
           {/* Columna Central: Logo WAIS - Perfectamente centrado */}
@@ -69,7 +68,7 @@ export default function NavBar({ onMenuToggle, isMobileMenuOpen }) {
             <Avatar size="small" avatarType="user" />
             <button
               onClick={handleLogout}
-              className="text-brand-text-primary hover:text-brand-primary-900 focus:outline-none focus:ring-2 focus:ring-brand-primary-900"
+              className={`${theme.logoutButton} focus:outline-none focus:ring-2 focus:ring-brand-primary-900`}
               aria-label="Cerrar sesion"
             >
               <IconLogout size={20} />
@@ -83,7 +82,7 @@ export default function NavBar({ onMenuToggle, isMobileMenuOpen }) {
           <div className="flex items-center justify-start">
             <button
               onClick={onMenuToggle}
-              className="p-2 text-brand-primary-900 hover:bg-brand-primary-100 rounded-lg transition-colors"
+              className={`p-2 ${theme.menuButton} rounded-lg transition-colors`}
               aria-label="Toggle menu"
             >
               <IconMenu2 size={24} />
@@ -100,7 +99,7 @@ export default function NavBar({ onMenuToggle, isMobileMenuOpen }) {
             <Avatar size="small" avatarType="user" />
             <button
               onClick={handleLogout}
-              className="text-brand-text-primary hover:text-brand-primary-900"
+              className={theme.logoutButton}
               aria-label="Cerrar sesion"
             >
               <IconLogout size={20} />

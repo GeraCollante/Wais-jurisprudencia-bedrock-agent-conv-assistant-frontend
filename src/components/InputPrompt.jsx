@@ -1,6 +1,7 @@
 import { useState, useRef, useContext } from "react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
+import { input as inputTheme } from '../theme';
 
 InputPrompt.propTypes = {
   sendMessage: PropTypes.func.isRequired,
@@ -46,27 +47,26 @@ export default function InputPrompt({ sendMessage, LoaderContext }) {
             isLoading ? t("Loading...") : t("Write your question here")
           }
           style={{ fontSize: '16px' }}
-          className="
+          className={`
             block w-full resize-none rounded-xl border font-sans
-            bg-brand-primary-200 text-brand-text-primary placeholder-brand-text-primary/60
-            border-brand-primary-900
+            ${inputTheme.bg} ${inputTheme.text} ${inputTheme.placeholder}
+            ${inputTheme.border}
             p-4 md:p-5 pr-16 md:pr-20 text-base md:text-sm min-h-[44px]
-            focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-brand-primary-900
+            focus:outline-none focus:ring-2 focus:ring-offset-1 ${inputTheme.focus}
             disabled:bg-brand-primary-200/70 disabled:text-brand-text-primary/70 disabled:border-brand-primary-900/70
-          "
+          `}
         />
         <div className="absolute right-2 md:right-2.5 bottom-2 md:bottom-3 flex items-center">
           <button
             type="submit"
             disabled={isLoading}
-            className="
+            className={`
               rounded-full font-sans
-              bg-brand-primary-900 px-3 py-2 md:px-4 md:py-2 text-sm font-medium text-brand-text-light
-              hover:bg-brand-primary-900/90
+              ${inputTheme.button} px-3 py-2 md:px-4 md:py-2 text-sm font-medium
               focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-brand-primary-900/80
-              disabled:bg-brand-secondary-100 disabled:text-brand-text-primary/50
+              ${inputTheme.buttonDisabled}
               min-h-[44px] md:min-h-0 min-w-[44px] md:min-w-0 flex items-center justify-center
-            "
+            `}
           >
             {isLoading ? (
               <svg
