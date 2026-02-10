@@ -7,7 +7,7 @@ import remarkGfm from "remark-gfm";
 import { messageBubble, table as tableTheme } from '../theme';
 
 // Toggle para mostrar/ocultar fuentes en las respuestas
-const SHOW_SOURCES = true;  // Cambiar a true para mostrar fuentes
+const SHOW_SOURCES = false;  // Cambiar a true para mostrar fuentes
 
 // Propiedades esperadas para el componente MessageBubble
 MessageBubble.propTypes = {
