@@ -44,7 +44,7 @@ export const useFunctionURLBuffered = ({ onMessage, onError, onSessionExpired })
   /**
    * Send a query to the Lambda Function URL and process buffered response
    */
-  const sendQuery = useCallback(async ({ query, session_id }) => {
+  const sendQuery = useCallback(async ({ query, session_id, model }) => {
     if (!FUNCTION_URL) {
       console.error('VITE_CHAT_STREAM_FUNCTION_URL not configured');
       onError?.('Function URL not configured');
@@ -61,7 +61,8 @@ export const useFunctionURLBuffered = ({ onMessage, onError, onSessionExpired })
       // Prepare request
       const requestBody = {
         query,
-        session_id
+        session_id,
+        model: model || 'groq'
       };
 
       console.log('Sending query to Function URL (MCP Agent):', { query, session_id });

@@ -266,13 +266,15 @@ export default function Chat() {
 
     console.log("[Chat] Sending query:", {
       query: message.content,
-      session_id: currentSessionId
+      session_id: currentSessionId,
+      model: message.model
     });
 
     // Send via Function URL (MCP Agent)
     const success = await stream.sendQuery({
       query: message.content,
-      session_id: currentSessionId
+      session_id: currentSessionId,
+      model: message.model
     });
 
     if (!success) {

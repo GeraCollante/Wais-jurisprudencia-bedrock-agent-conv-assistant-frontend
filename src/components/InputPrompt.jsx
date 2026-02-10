@@ -3,6 +3,11 @@ import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { input as inputTheme } from '../theme';
 
+const MODELS = [
+  { id: "groq", label: "GPT-OSS 120B", color: "bg-orange-500" },
+  { id: "haiku", label: "Haiku 4.5", color: "bg-blue-500" },
+];
+
 InputPrompt.propTypes = {
   sendMessage: PropTypes.func.isRequired,
   LoaderContext: PropTypes.object.isRequired,
@@ -11,6 +16,7 @@ InputPrompt.propTypes = {
 export default function InputPrompt({ sendMessage, LoaderContext }) {
   const { t } = useTranslation();
   const [prompt, setPrompt] = useState("");
+  const [selectedModel, setSelectedModel] = useState("groq");
   const promptInput = useRef(null);
   const isLoading = useContext(LoaderContext);
 
@@ -28,12 +34,34 @@ export default function InputPrompt({ sendMessage, LoaderContext }) {
       content: trimmed,
       message_type: "question",
       timestamp: timestamp,
+      model: selectedModel,
     });
     setPrompt("");
   };
 
+  const currentModel = MODELS.find(m => m.id === selectedModel) || MODELS[0];
+
   return (
     <form className="font-sans" onSubmit={handleSubmit}>
+      <div className="flex items-center gap-2 mb-1.5 px-1">
+        {MODELS.map((m) => (
+          <button
+            key={m.id}
+            type="button"
+            onClick={() => setSelectedModel(m.id)}
+            className={`
+              flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition-all
+              ${selectedModel === m.id
+                ? `${m.color} text-white shadow-sm`
+                : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+              }
+            `}
+          >
+            <span className={`w-1.5 h-1.5 rounded-full ${selectedModel === m.id ? 'bg-white' : 'bg-gray-400'}`} />
+            {m.label}
+          </button>
+        ))}
+      </div>
       <div className="relative">
         <textarea
           id="prompt-input"
