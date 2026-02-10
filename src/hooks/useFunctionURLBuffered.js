@@ -126,8 +126,10 @@ export const useFunctionURLBuffered = ({ onMessage, onError, onSessionExpired })
       }
 
       // Send completion metadata (use 'stream_end' to match Chat.jsx expectations)
+      // Include sources directly to avoid React state timing issues in synchronous calls
       onMessage?.({
         type: 'stream_end',
+        sources: data.sources || [],
         total_sources: data.total_sources || 0,
         execution_time: data.execution_time || 0,
         session_id: data.session_id

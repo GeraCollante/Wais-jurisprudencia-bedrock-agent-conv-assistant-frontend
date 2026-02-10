@@ -116,8 +116,8 @@ export default function Chat() {
         break;
 
       case 'stream_end':
-        // Get sources before clearing
-        const finalSources = streamingSources || [];
+        // Get sources: prefer event data (buffered mode) over state (streaming mode)
+        const finalSources = data.sources || streamingSources || [];
         const sessionIdForMessage = streamingSessionIdRef.current;
 
         setCurrentStreamingMessage((prev) => {
