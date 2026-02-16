@@ -20,6 +20,12 @@ import Error from "@routes/Error";
 import { SessionProvider } from "./contexts/SessionContext";
 import { WebSocketProvider } from "./contexts/WebSocketContext";
 
+// Apply zoom level from env var (allows per-Amplify-app zoom)
+const appZoom = import.meta.env.VITE_APP_ZOOM || '1';
+if (appZoom !== '1') {
+  document.documentElement.style.zoom = appZoom;
+}
+
 // Configurar Amplify I18n en español
 I18n.putVocabularies({
   es: amplifyTranslationsES
