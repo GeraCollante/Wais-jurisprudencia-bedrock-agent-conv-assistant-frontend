@@ -29,9 +29,11 @@ Amplify.configure({
   },
 });
 
-// Helper function to call our unified backend
+// Helper function to call our unified backend (with auth)
 async function callBackend(action, params = {}) {
-  const response = await fetch(FUNCTION_URL, {
+  const { authenticatedFetch } = await import('./services/authService');
+
+  const response = await authenticatedFetch(FUNCTION_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

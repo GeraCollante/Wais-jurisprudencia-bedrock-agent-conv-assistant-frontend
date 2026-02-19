@@ -13,6 +13,7 @@
  */
 
 import { useState, useCallback, useRef } from 'react';
+import { authenticatedFetch } from '../services/authService';
 
 const FUNCTION_URL = import.meta.env.VITE_CHAT_STREAM_FUNCTION_URL;
 
@@ -67,8 +68,8 @@ export const useFunctionURLBuffered = ({ onMessage, onError, onSessionExpired })
 
       console.log('Sending query to Function URL (MCP Agent):', { query, session_id });
 
-      // Direct fetch to Function URL (no auth required - public endpoint)
-      const response = await fetch(FUNCTION_URL, {
+      // Authenticated fetch to Function URL (sends JWT Bearer token)
+      const response = await authenticatedFetch(FUNCTION_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
