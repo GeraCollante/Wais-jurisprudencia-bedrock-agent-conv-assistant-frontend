@@ -3,10 +3,21 @@ import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { input as inputTheme } from '../theme';
 
-const MODELS = [
-  { id: "groq", label: "GPT-OSS 120B", color: "bg-orange-500" },
-  { id: "haiku", label: "Haiku 4.5", color: "bg-blue-500" },
-];
+// Model presets per backend stack
+const MODEL_PRESETS = {
+  aoss: [
+    { id: "sonnet", label: "Sonnet 4.5", color: "bg-blue-600" },
+    { id: "grok", label: "Grok 4.1", color: "bg-purple-500" },
+  ],
+  cheap: [
+    { id: "groq", label: "GPT-OSS 120B", color: "bg-orange-500" },
+    { id: "haiku", label: "Haiku 4.5", color: "bg-blue-500" },
+  ],
+};
+
+// Detect which stack based on API Gateway presence
+const HAS_API_GATEWAY = !!(import.meta.env.VITE_API_GATEWAY_REST_API_NAME);
+const MODELS = HAS_API_GATEWAY ? MODEL_PRESETS.aoss : MODEL_PRESETS.cheap;
 
 InputPrompt.propTypes = {
   sendMessage: PropTypes.func.isRequired,
@@ -16,7 +27,7 @@ InputPrompt.propTypes = {
 export default function InputPrompt({ sendMessage, LoaderContext }) {
   const { t } = useTranslation();
   const [prompt, setPrompt] = useState("");
-  const [selectedModel, setSelectedModel] = useState("groq");
+  const [selectedModel, setSelectedModel] = useState(MODELS[0].id);
   const promptInput = useRef(null);
   const isLoading = useContext(LoaderContext);
 
