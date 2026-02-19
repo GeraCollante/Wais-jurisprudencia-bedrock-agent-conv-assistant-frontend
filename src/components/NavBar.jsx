@@ -1,9 +1,9 @@
-import { useAuthenticator } from "@aws-amplify/ui-react";
 import { IconLogout, IconMenu2 } from "@tabler/icons-react";
 import { useCallback } from "react";
 import PropTypes from "prop-types";
+import { Auth } from "aws-amplify";
 import Avatar from "./Avatar";
-import { clearSessionData } from "../services/authService";
+import { clearAllAuthData } from "../services/authService";
 import { navbar as theme } from '../theme';
 
 // Opcional: Importa las imágenes si no están en `public` y tu bundler lo soporta
@@ -17,29 +17,16 @@ NavBar.propTypes = {
 };
 
 export default function NavBar({ onMenuToggle, isMobileMenuOpen }) {
-  const { signOut } = useAuthenticator((ctx) => [ctx.user]);
-
-  /**
-   * Handle logout with complete cleanup
-   */
   const handleLogout = useCallback(async () => {
-    console.log('[NavBar] Logging out with cleanup...');
-
-    // Clear all session-related data from storage
-    clearSessionData();
-
-    // Clear any in-memory state by reloading after signout
-    // This ensures no sensitive data remains in React state
     try {
-      await signOut();
+      await Auth.signOut();
     } catch (err) {
       console.error('[NavBar] Sign out error:', err);
     }
 
-    // Force page reload to clear all React state
-    // This is the safest way to ensure no data leaks between sessions
+    clearAllAuthData();
     window.location.href = '/';
-  }, [signOut]);
+  }, []);
   // const env = import.meta.env; // Ya no se usan directamente estas variables de entorno para los logos aquí
   // const appName = env.VITE_APP_NAME || "IBS Assistant";
   // const appLogoUrl = env.VITE_APP_LOGO_URL;

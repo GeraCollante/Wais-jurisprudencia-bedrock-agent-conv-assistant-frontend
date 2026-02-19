@@ -356,6 +356,30 @@ export function clearSessionData() {
 }
 
 /**
+ * Clear all auth data including Cognito tokens from localStorage.
+ * Used during logout to ensure complete cleanup even if Auth.signOut() fails.
+ */
+export function clearAllAuthData() {
+  const keysToRemove = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && (
+      key.startsWith('CognitoIdentityServiceProvider.') ||
+      key.startsWith('aws-amplify-') ||
+      key.startsWith('amplify-') ||
+      key.startsWith('ws_') ||
+      key.startsWith('session_') ||
+      key.startsWith('chat_') ||
+      key.startsWith('message_')
+    )) {
+      keysToRemove.push(key);
+    }
+  }
+  keysToRemove.forEach(key => localStorage.removeItem(key));
+  sessionStorage.clear();
+}
+
+/**
  * Get current user info
  * @returns {Promise<Object|null>}
  */
@@ -376,6 +400,7 @@ export default {
   isAuthenticated,
   signOut,
   clearSessionData,
+  clearAllAuthData,
   getCurrentUser,
   onSessionEvent,
 };
